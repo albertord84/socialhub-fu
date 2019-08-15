@@ -1,3 +1,5 @@
+app/db.config.php
+
 # Glue terminal files
 **/terminal.glue
 
