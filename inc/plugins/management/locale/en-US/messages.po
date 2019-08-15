@@ -1,0 +1,327 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Modules\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#:
+msgid "Manager Module"
+msgstr "Manager Module"
+#:
+msgid "Invalid user"
+msgstr "Invalid user"
+#:
+msgid "You cannot relogin now"
+msgstr "You cannot relogin now"
+#: 
+msgid "Users"
+msgstr "Users"
+#:
+msgid "User"
+msgstr "User"
+#:
+msgid "Registered Users"
+msgstr "Registered Users"
+#:
+msgid "Re-login as admin"
+msgstr "Re-login as admin"
+#:
+msgid "Invalid data"
+msgstr "Invalid data"
+#:
+msgid "ID"
+msgstr "ID"
+#:
+msgid "Name"
+msgstr "Name"
+#:
+msgid "Email"
+msgstr "Email"
+#:
+msgid "Expired"
+msgstr "Expired"
+#:
+msgid "Type"
+msgstr "Type"
+#:
+msgid "Total Accounts"
+msgstr "Total Accounts"
+#:
+msgid "Package"
+msgstr "Package"
+#:
+msgid "Actions"
+msgstr "Actions"
+#:
+msgid "no"
+msgstr "no"
+#:
+msgid "yes"
+msgstr "yes"
+#:
+msgid "edit"
+msgstr "edit"
+#:
+msgid "login"
+msgstr "login"
+#:
+msgid "Management"
+msgstr "Management"
+#:
+msgid "Accounts"
+msgstr "Accounts"
+#:
+msgid "Account"
+msgstr "Account"
+#:
+msgid "Instagram Accounts"
+msgstr "Instagram Accounts"
+
+#:
+msgid "Login Required"
+msgstr "Login Required"
+
+#:
+msgid "Proxy"
+msgstr "Proxy"
+
+#:
+msgid "None"
+msgstr "None"
+
+#:
+msgid "Click here to login"
+msgstr "Click here to login"
+
+#:
+msgid "Details"
+msgstr "Details"
+
+#:
+msgid "Account Details"
+msgstr "Account Details"
+
+#:
+msgid "Update Proxy"
+msgstr "Update Proxy"
+
+#:
+msgid "Save Proxy"
+msgstr "Save Proxy"
+
+#:
+msgid "invalid_data"
+msgstr "Invalid Data"
+
+#:
+msgid "Account is not valid or active!"
+msgstr "Account is not valid or active!"
+
+#:
+msgid "Proxy is not valid or active!"
+msgstr "Proxy is not valid or active!"
+
+#:
+msgid "save_success"
+msgstr "All right"
+
+#:
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#:
+msgid "New users by day"
+msgstr "New users by day"
+
+#:
+msgid "New users by month"
+msgstr "New users by month"
+
+#:
+msgid "New accounts by day"
+msgstr "New accounts by day"
+
+#:
+msgid "New accounts by month"
+msgstr "New accounts by month"
+
+#:
+msgid "by day"
+msgstr "by day"
+
+#:
+msgid "by month"
+msgstr "by month"
+
+#:
+msgid "Comments"
+msgstr "Comments"
+
+#:
+msgid "Likes"
+msgstr "Likes"
+
+#:
+msgid "Unfollows"
+msgstr "Unfollows"
+
+#:
+msgid "Follows"
+msgstr "Follows"
+
+#:
+msgid "Posts"
+msgstr "Posts"
+
+#:
+msgid "Reposts"
+msgstr "Reposts"
+
+#:
+msgid "Welcome Message"
+msgstr "Welcome Message"
+
+#:
+msgid "New Users x New Accounts by Day"
+msgstr "New Users x New Accounts by Day"
+
+#:
+msgid "New Users x New Accounts by Month"
+msgstr "New Users x New Accounts by Month"
+
+#:
+msgid "See on Instagram"
+msgstr "See on Instagram"
+
+#:
+msgid "Reports"
+msgstr "Reports"
+
+#:
+msgid "See what's happening"
+msgstr "See what's happening"
+
+#:
+msgid "Your numbers in the last %s days"
+msgstr "Your numbers in the last %s days"
+
+#:
+msgid "Published Posts"
+msgstr "Published Posts"
+
+#:
+msgid "Automations"
+msgstr "Automations"
+
+#:
+msgid "New Accounts by day"
+msgstr "New Accounts by day"
+
+#:
+msgid "Recent IG Accounts"
+msgstr "Recent IG Accounts"
+
+#:
+msgid "News users by day"
+msgstr "News users by day"
+
+#:
+msgid "Latest Registered users"
+msgstr "Latest Registered users"
+
+#:
+msgid "New IG Accounts"
+msgstr "New IG Accounts"
+
+#:
+msgid "New Users"
+msgstr "New Users"
+
+#:
+msgid "New Users by Day/Month"
+msgstr "New Users by Day/Month"
+
+#:
+msgid "Group by"
+msgstr "Group by"
+
+#:
+msgid "Day"
+msgstr "Day"
+
+#:
+msgid "Month"
+msgstr "Month"
+
+#:
+msgid "Day Range"
+msgstr "Day Range"
+
+#:
+msgid "New Accounts by Day/Month"
+msgstr "New Accounts by Day/Month"
+
+#:
+msgid "Generate"
+msgstr "Generate"
+
+#:
+msgid "New Accounts x New Users"
+msgstr "New Accounts x New Users"
+
+#:
+msgid "Actions by Day/Month"
+msgstr "Actions by Day/Month"
+
+#:
+msgid "Year-month"
+msgstr "Year-month"
+
+#:
+msgid "Average of new Users"
+msgstr "Average of new Users"
+
+#:
+msgid "per day"
+msgstr "per day"
+
+#:
+msgid "per month"
+msgstr "per month"
+
+#:
+msgid "date"
+msgstr "date"
+
+#:
+msgid "total"
+msgstr "total"
+
+#:
+msgid "Average of new Accounts"
+msgstr "Average of new Accounts"
+
+
+#:
+msgid "new Accounts"
+msgstr "new Accounts"
+
+#:
+msgid "Average of Actions"
+msgstr "Average of Actions"
+
+#:
+msgid "no data"
+msgstr "no data"
+
+#:
+msgid "Type a Valide Day Range"
+msgstr "Type a Valide Day Range"
+
+#:
+msgid "Always select the DAYS"
+msgstr "Always select the DAYS"

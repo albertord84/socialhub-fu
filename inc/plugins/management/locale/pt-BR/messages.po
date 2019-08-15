@@ -1,0 +1,358 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Managment Modules\n"
+"Language: pt-br\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#:
+msgid "Management Module"
+msgstr "Módulo de Gerenciamento"
+
+#:
+msgid "Invalid user"
+msgstr "Usuário Inválido"
+
+#:
+msgid "You cannot relogin now"
+msgstr "Você não pode re-logar agora"
+
+#:
+msgid "User"
+msgstr "Usuário"
+
+#:
+msgid "Users"
+msgstr "Usuários"
+
+#:
+msgid "Registered Users"
+msgstr "Usuários Registrados"
+
+#:
+msgid "Re-login as admin"
+msgstr "Re-login como admin"
+
+#:
+msgid "Invalid data"
+msgstr "Dados Inválidos"
+
+#:
+msgid "ID"
+msgstr "ID"
+
+#:
+msgid "Name"
+msgstr "Nome"
+
+#:
+msgid "Email"
+msgstr "Email"
+
+#:
+msgid "Expired"
+msgstr "Expirado"
+
+#:
+msgid "Type"
+msgstr "Tipo"
+
+#:
+msgid "Total Accounts"
+msgstr "Nr. de Contas"
+
+#:
+msgid "Package"
+msgstr "Pacote"
+
+#:
+msgid "Actions"
+msgstr "Ações"
+
+#:
+msgid "no"
+msgstr "não"
+
+#:
+msgid "yes"
+msgstr "sim"
+
+#
+msgid "edit"
+msgstr "editar"
+
+#:
+msgid "login"
+msgstr "logar"
+
+#:
+msgid "Management"
+msgstr "Gerenciamento"
+
+#:
+msgid "Accounts"
+msgstr "Contas"
+
+#:
+msgid "Account"
+msgstr "Conta"
+
+#:
+msgid "Instagram Accounts"
+msgstr "Perfis do Instagram"
+
+
+#:
+msgid "Login Required"
+msgstr "Login Required"
+
+
+#:
+msgid "Proxy"
+msgstr "Proxy"
+
+#:
+msgid "None"
+msgstr "Nenhum"
+
+#:
+msgid "Click here to login"
+msgstr "Clique aqui para logar"
+
+#:
+msgid "Details"
+msgstr "Detalhes"
+
+#:
+msgid "Account Details"
+msgstr "Detalhes da Conta"
+
+#:
+msgid "Update Proxy"
+msgstr "Atualizar Proxy"
+
+#:
+msgid "Save Proxy"
+msgstr "Savar Proxy"
+
+#:
+msgid "invalid_data"
+msgstr "Dados Inválidos"
+
+#:
+msgid "Account is not valid or active!"
+msgstr "Conta inválida"
+
+#:
+msgid "Proxy is not valid or active!"
+msgstr "Proxy inválido ou inativo"
+
+#:
+msgid "save_success"
+msgstr "Tudo certo... Obgrigado. De nada!"
+
+
+#:
+msgid "Dashboard"
+msgstr "Painel"
+
+#:
+msgid "New users by day"
+msgstr "Novos usuários por dia"
+
+#:
+msgid "New users by month"
+msgstr "Novos usuários por mês"
+
+#:
+msgid "New accounts by day"
+msgstr "Novas contas por dia"
+
+#:
+msgid "New accounts by month"
+msgstr "Novas contas por mês"
+
+#:
+msgid "by day"
+msgstr "por dia"
+
+#:
+msgid "by month"
+msgstr "por mês"
+
+#:
+msgid "Comments"
+msgstr "Comentários"
+
+#:
+msgid "Likes"
+msgstr "Curtidas"
+
+#:
+msgid "Unfollows"
+msgstr "Unfollows"
+
+#:
+msgid "Follows"
+msgstr "Follows"
+
+#:
+msgid "Posts"
+msgstr "Posts"
+
+#:
+msgid "Reposts"
+msgstr "Repostes"
+
+#:
+msgid "Welcome Message"
+msgstr "Mensagem de boas vindas"
+
+#:
+msgid "New Users x New Accounts by Day"
+msgstr "Novos Usuários x Novas Contas por dia"
+
+#:
+msgid "New Users x New Accounts by Month"
+msgstr "Novos Usuários x Novas Contas por mês"
+
+#:
+msgid "See on Instagram"
+msgstr "Ver no Instagram"
+
+
+#:
+msgid "Reports"
+msgstr "Relatórios"
+
+
+#:
+msgid "See what's happening"
+msgstr "Veja o que está acontecendo"
+
+#:
+msgid "Your numbers in the last %s days"
+msgstr "Seus números nos últimos %s dias"
+
+#:
+msgid "Published Posts"
+msgstr "Posts Publicados"
+
+#:
+msgid "Automations"
+msgstr "Automações"
+
+#:
+msgid "New Accounts by day"
+msgstr "Novas Contas por Dia"
+
+#:
+msgid "Recent IG Accounts"
+msgstr "Contas do Instagram conectadas"
+
+#:
+msgid "News users by day"
+msgstr "Novos Usuários por Dia"
+
+#:
+msgid "Latest Registered users"
+msgstr "Últimos Usuários Registrados"
+
+#:
+msgid "New IG Accounts"
+msgstr "Novas Contas do Instagram"
+
+#:
+msgid "New Users"
+msgstr "Novos Usuários"
+
+
+#:
+msgid "New Users by Day/Month"
+msgstr "Novos usuários por dia/mês"
+
+#:
+msgid "Group by"
+msgstr "Agrupar por"
+
+#:
+msgid "Day"
+msgstr "Dia"
+
+#:
+msgid "Month"
+msgstr "Mês"
+
+#:
+msgid "Day Range"
+msgstr "Intervalo de Dias"
+
+#:
+msgid "New Accounts by Day/Month"
+msgstr "Novas contas por dia/mês"
+
+#:
+msgid "Generate"
+msgstr "Gerar"
+
+#:
+msgid "New Accounts x New Users"
+msgstr "Novas Contas X Novos Usuários"
+
+#:
+msgid "Actions by Day/Month"
+msgstr "Ações por Dia/Mês"
+
+#:
+msgid "Year-month"
+msgstr "Ano-Mês"
+
+#:
+msgid "Average of new Users"
+msgstr "Média de Novos Usuários"
+
+#:
+msgid "per day"
+msgstr "por dia"
+
+#:
+msgid "per month"
+msgstr "por mês"
+
+#:
+msgid "date"
+msgstr "data"
+
+#:
+msgid "total"
+msgstr "total"
+
+#:
+msgid "Average of new Accounts"
+msgstr "Média de novas Contas"
+
+
+#:
+msgid "New Accounts"
+msgstr "Novas Contas"
+
+#:
+msgid "Average of Actions"
+msgstr "Média de Ações"
+
+#:
+msgid "no data"
+msgstr "sem dados"
+
+
+#:
+msgid "Type a Valide Day Range"
+msgstr "Informe um Intervalo de Dias Válido"
+
+
+#:
+msgid "Always select the DAYS"
+msgstr "Sempre selecione os DIAS"

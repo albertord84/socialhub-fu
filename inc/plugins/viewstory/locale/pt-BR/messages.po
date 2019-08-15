@@ -1,0 +1,121 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Nextpost v3.0 - Default Theme\n"
+"Language: pt-br\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: 
+msgid "Auto View Story"
+msgstr "Visualizador de stories"
+
+#: 
+msgid "View Story"
+msgstr "Ver stories"
+
+#: 
+msgid "Activity Log"
+msgstr "Registro de Atividades"
+
+#: 
+msgid "Next request will be sent %s approximately"
+msgstr "A próxima ação será realizada %s aproximadamente"
+
+#: 
+msgid "Next request will be sent in a few moments"
+msgstr "A próxima ação será realizada em instantes"
+
+#: 
+msgid "Something is wrong on the system"
+msgstr "Algo está errado no sistema"
+
+#: 
+msgid "Error on system task"
+msgstr "Erro na tarefa do sistema"
+
+#: 
+msgid "{username}'s story seen"
+msgstr "Visualizou o story de {username}"
+
+#: 
+msgid "See Story"
+msgstr "Ver Story"
+
+#: 
+msgid "Total %s actions"
+msgstr "%s Ações executadas"
+
+#: 
+msgid "Activity log is empty"
+msgstr "Log de atividades está vazio"
+
+#: 
+msgid "Deactivated"
+msgstr "Desativado"
+
+#: 
+msgid "Activated"
+msgstr "Ativado"
+
+#: 
+msgid "Pause actions everyday"
+msgstr "Pausar as ações diariamente"
+
+
+#: 
+msgid "Speeds"
+msgstr "Velocidades"
+
+#: 
+msgid "%s request/hour"
+msgid_plural "%s requests/hour"
+msgstr[0] "%s requição/hora"
+msgstr[1] "%s requisições/hora"
+
+#: 
+msgid "These values indicates maximum amount of the requests per hour. They are not exact values. Depending on the server overload and delays between the requests, actual number of the requests might be less than these values."
+msgstr "Esses valores indicam o valor máximo das solicitações por hora. Eles não são valores exatos. Dependendo da sobrecarga do servidor e atrasos entre as solicitações, o número real das solicitações pode ser menor que esses valores."
+
+#: 
+msgid "High speeds might be risky"
+msgstr "Altas velocidades podem ser arriscadas"
+
+#: 
+msgid "Developers are not responsible for any issues related to the Instagram accounts."
+msgstr "Os desenvolvedores não são responsáveis por quaisquer problemas relacionados às contas do Instagram."
+
+#: 
+msgid "Other Settings"
+msgstr "Outras Configurações"
+
+#: 
+msgid "Enable Random Delays"
+msgstr "Ativar atrasos aleatórios"
+
+#: 
+msgid "Recommended"
+msgstr "Recomendado"
+
+#: 
+msgid "If you enable this option, script will add random delays automatically between each requests."
+msgstr "Se você habilitar essa opção, o script adicionará atrasos aleatórios automaticamente entre cada solicitação."
+
+#: 
+msgid "Delays could be up to 5 minutes."
+msgstr "Os atrasos podem ser de até 5 minutos."
+
+#: 
+msgid "Recommended"
+msgstr "Recomendado"
+
+#: 
+msgid "Couldn't find the new story to see"
+msgstr "Não localizamos novas stories para visualizar"
+
+#: 
+msgid "Couldn't view the story"
+msgstr "Não foi ossível visualizar o story"
+
