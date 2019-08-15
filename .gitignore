@@ -1,3 +1,7 @@
+app/db.config.php
+
+error*
+
 # Glue terminal files
 **/terminal.glue
 
