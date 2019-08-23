@@ -1,7 +1,10 @@
 <?php
- namespace InstagramAPI\Response\Model;
- use InstagramAPI\AutoPropertyMapper;
- /**
+
+namespace InstagramAPI\Response\Model;
+
+use InstagramAPI\AutoPropertyMapper;
+
+/**
  * ProductImage.
  *
  * @method Image_Versions2 getImageVersions2()

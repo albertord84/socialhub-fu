@@ -145,9 +145,9 @@ class PhotoDetails extends MediaDetails
         // Validate photo resolution. Instagram allows between 320px-1080px width.
         if ($width < self::MIN_WIDTH || $width > self::MAX_WIDTH) {
             throw new \InvalidArgumentException(sprintf(
-        //        'Instagram only accepts photos that are between %d and %d pixels wide. Your file "%s" is %d pixels wide.',
+                'Instagram only accepts photos that are between %d and %d pixels wide. Your file "%s" is %d pixels wide.',
                 self::MIN_WIDTH, self::MAX_WIDTH, $mediaFilename, $width
-           ));
+            ));
         }
     }
 

@@ -196,6 +196,8 @@ class AccountController extends Controller
             "basefolder" => SESSIONS_PATH."/".$AuthUser->get("id")."/",
         ];
 
+        // TODO Alberto
+        // $Instagram = new \InstagramAPI\Instagram(false, false, $storageConfig);
         $Instagram = new \InstagramAPI\Instagram(false, false, $storageConfig);
         $Instagram->setVerifySSL(SSL_ENABLED);
 
@@ -596,6 +598,7 @@ class AccountController extends Controller
         } catch (InstagramAPI\Exception\InstagramException $e) {
             if ($e->hasResponse()) {
                 $msg = $e->getResponse()->getMessage();
+                
             } else {
                 $msg = explode(":", $e->getMessage(), 2);
                 $msg = end($msg);

@@ -53,20 +53,23 @@ class InstagramController extends Controller
             "storage" => "file",
             "basefolder" => SESSIONS_PATH."/".$Account->get("user_id")."/",
         ];
+        // TODO Alberto
+        // $Instagram = new \InstagramAPI\Instagram(false, false, $storage_config);
         $Instagram = new \InstagramAPI\Instagram(false, false, $storage_config);
-        $Instagram->setVerifySSL(SSL_ENABLED);
+        // $Instagram->setVerifySSL(SSL_ENABLED);
 
         // Check is valid proxy is available for the account
-        if ($Account->get("proxy") && isValidProxy($Account->get("proxy"))) {
-            $Instagram->setProxy($Account->get("proxy"));
-        }
+        // if ($Account->get("proxy") && isValidProxy($Account->get("proxy"))) {
+        //     $Instagram->setProxy($Account->get("proxy"));
+        // }
 
         // Login to instagram
         try {
-           $last_login_timestamp = strtotime($Account->get("last_login"));
-           if ($last_login_timestamp && $last_login_timestamp + 15 * 60 > time()) { 
+            $last_login_timestamp = strtotime($Account->get("last_login"));
+            if ($last_login_timestamp && $last_login_timestamp + 15 * 60 > time()) { 
+              // TODO Alberto
               // Recent login, there is no need to re-send login flow
-              \InstagramAPI\Instagram::$sendLoginFlow = false;
+            //   $Instagram->_sendLoginFlow(false);
            }
            $login_resp = $Instagram->login($Account->get("username"), $password);
            if ($login_resp !== null && $login_resp->isTwoFactorRequired()) {

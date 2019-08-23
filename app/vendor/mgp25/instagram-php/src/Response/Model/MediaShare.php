@@ -1,10 +1,10 @@
 <?php
 
- namespace InstagramAPI\Response\Model;
- 
- use InstagramAPI\AutoPropertyMapper;
+namespace InstagramAPI\Response\Model;
 
- /**
+use InstagramAPI\AutoPropertyMapper;
+
+/**
  * MediaShare.
  *
  * @method Item getMedia()

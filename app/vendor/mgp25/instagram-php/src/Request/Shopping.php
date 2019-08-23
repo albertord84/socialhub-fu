@@ -2,8 +2,8 @@
 
 namespace InstagramAPI\Request;
 
-use InstagramAPI\Response;
 use InstagramAPI\Constants;
+use InstagramAPI\Response;
 
 /**
  * Functions related to Shopping and catalogs.
@@ -28,10 +28,11 @@ class Shopping extends RequestCollection
         $merchantId,
         $deviceWidth = 720)
     {
-        return $this->ig->request("commerce/products/{$productId}/")
-            ->addParam('media_id', $mediaId)
+        return $this->ig->request("commerce/products/{$productId}/details/")
+            ->addParam('source_media_id', $mediaId)
             ->addParam('merchant_id', $merchantId)
             ->addParam('device_width', $deviceWidth)
+            ->addParam('hero_carousel_enabled', false)
             ->getResponse(new Response\OnTagProductResponse());
     }
 
@@ -74,7 +75,7 @@ class Shopping extends RequestCollection
     {
         if ($offset !== null) {
             if ($offset % 20 !== 0) {
-                throw new \InvalidArgumentException("Offset must be multiple of 20.");
+                throw new \InvalidArgumentException('Offset must be multiple of 20.');
             }
             $offset = [
                 'offset' => $offset,

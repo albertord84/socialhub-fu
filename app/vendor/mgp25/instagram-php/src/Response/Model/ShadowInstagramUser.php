@@ -11,7 +11,7 @@ use InstagramAPI\AutoPropertyMapper;
  * @method mixed getError()
  * @method int getFollowersCount()
  * @method string getId()
- * @method int getFollowersCount()
+ * @method string getInstagramUserId()
  * @method Image getProfilePicture()
  * @method string getUsername()
  * @method bool isBusinessManager()

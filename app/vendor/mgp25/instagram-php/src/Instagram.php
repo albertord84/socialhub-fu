@@ -3,7 +3,7 @@
 namespace InstagramAPI;
 
 /**
- * Instagram's Private API v5.
+ * Instagram's Private API v6.1.0.
  *
  * TERMS OF USE:
  * - This code is in no way affiliated with, authorized, maintained, sponsored
@@ -91,14 +91,6 @@ class Instagram implements ExperimentsInterface
      * @see Instagram::__construct()
      */
     public static $allowDangerousWebUsageAtMyOwnRisk = false;
-
-    /**
-     * Set this value to false for the recent 
-     * logins. This is required to use this API
-     * in a webpage for consecutive
-     * @var boolean
-     */
-    public static $sendLoginFlow = true;
 
     /**
      * UUID.
@@ -502,6 +494,7 @@ class Instagram implements ExperimentsInterface
             try {
                 $response = $this->request('accounts/login/')
                     ->setNeedsAuth(false)
+                    ->addPost('country_codes', '[{"country_code":"1","source":["default","sim"]}]')
                     ->addPost('phone_id', $this->phone_id)
                     ->addPost('_csrftoken', $this->client->getToken())
                     ->addPost('username', $this->username)
@@ -509,6 +502,7 @@ class Instagram implements ExperimentsInterface
                     ->addPost('guid', $this->uuid)
                     ->addPost('device_id', $this->device_id)
                     ->addPost('password', $this->password)
+                    ->addPost('google_tokens', '[]')
                     ->addPost('login_attempt_count', 0)
                     ->getResponse(new Response\LoginResponse());
             } catch (\InstagramAPI\Exception\InstagramException $e) {
@@ -530,10 +524,6 @@ class Instagram implements ExperimentsInterface
             return $response;
         }
 
-        if (!self::$sendLoginFlow) {
-            return NULL;
-        }
-
         // Attempt to resume an existing session, or full re-login if necessary.
         // NOTE: The "return" here gives a LoginResponse in case of re-login.
         return $this->_sendLoginFlow(false, $appRefreshInterval);
@@ -546,18 +536,20 @@ class Instagram implements ExperimentsInterface
      * regular `login()` function. If you successfully answer their challenge,
      * you will be logged in after this function call.
      *
-     * @param string $username            Your Instagram username.
-     *                                    Email and phone aren't allowed here.
+     * @param string $username            Your Instagram username used for logging
      * @param string $password            Your Instagram password.
      * @param string $twoFactorIdentifier Two factor identifier, obtained in
      *                                    login() response. Format: `123456`.
      * @param string $verificationCode    Verification code you have received
      *                                    via SMS.
+     * @param string $verificationMethod  The verification method for 2FA. 1 is SMS,
+     *                                    2 is backup codes and 3 is TOTP.
      * @param int    $appRefreshInterval  See `login()` for description of this
      *                                    parameter.
-     * @param int    $usernameHandler     Your Instagram username, used when logging in
+     * @param string $usernameHandler     Instagram username sent in the login response,
+     *                                    Email and phone aren't allowed here.
+     *                                    Default value is the first argument $username
      *
-     * 
      * @throws \InvalidArgumentException
      * @throws \InstagramAPI\Exception\InstagramException
      *
@@ -568,6 +560,7 @@ class Instagram implements ExperimentsInterface
         $password,
         $twoFactorIdentifier,
         $verificationCode,
+        $verificationMethod = '1',
         $appRefreshInterval = 1800,
         $usernameHandler = null)
     {
@@ -576,6 +569,9 @@ class Instagram implements ExperimentsInterface
         }
         if (empty($verificationCode) || empty($twoFactorIdentifier)) {
             throw new \InvalidArgumentException('You must provide a verification code and two-factor identifier to finishTwoFactorLogin().');
+        }
+        if (!in_array($verificationMethod, ['1', '2', '3'], true)) {
+            throw new \InvalidArgumentException('You must provide a valid verification method value.');
         }
 
         // Switch the currently active user/pass if the details are different.
@@ -595,12 +591,12 @@ class Instagram implements ExperimentsInterface
 
         $response = $this->request('accounts/two_factor_login/')
             ->setNeedsAuth(false)
-            // 1 - SMS, 2 - Messenger (?), 3 - TOTP, 0 - ??
-            ->addPost('verification_method', '1')
+            // 1 - SMS, 2 - Backup codes, 3 - TOTP, 0 - ??
+            ->addPost('verification_method', $verificationMethod)
             ->addPost('verification_code', $verificationCode)
             ->addPost('two_factor_identifier', $twoFactorIdentifier)
             ->addPost('_csrftoken', $this->client->getToken())
-            ->addPost('username', $this->username)
+            ->addPost('username', $username)
             ->addPost('device_id', $this->device_id)
             ->addPost('guid', $this->uuid)
             ->getResponse(new Response\LoginResponse());
@@ -625,6 +621,9 @@ class Instagram implements ExperimentsInterface
      * @param string $password            Your Instagram password.
      * @param string $twoFactorIdentifier Two factor identifier, obtained in
      *                                    `login()` response.
+     * @param string $usernameHandler     Instagram username sent in the login response,
+     *                                    Email and phone aren't allowed here.
+     *                                    Default value is the first argument $username
      *
      * @throws \InstagramAPI\Exception\InstagramException
      *
@@ -633,12 +632,12 @@ class Instagram implements ExperimentsInterface
     public function sendTwoFactorLoginSMS(
         $username,
         $password,
-        $twoFactorIdentifier)
+        $twoFactorIdentifier,
+        $usernameHandler = null)
     {
         if (empty($username) || empty($password)) {
             throw new \InvalidArgumentException('You must provide a username and password to sendTwoFactorLoginSMS().');
         }
-
         if (empty($twoFactorIdentifier)) {
             throw new \InvalidArgumentException('You must provide a two-factor identifier to sendTwoFactorLoginSMS().');
         }
@@ -653,6 +652,8 @@ class Instagram implements ExperimentsInterface
             $this->_setUser($username, $password);
         }
 
+        $username = ($usernameHandler !== null) ? $usernameHandler : $username;
+
         return $this->request('accounts/send_two_factor_login_sms/')
             ->setNeedsAuth(false)
             ->addPost('two_factor_identifier', $twoFactorIdentifier)
@@ -663,6 +664,7 @@ class Instagram implements ExperimentsInterface
             ->getResponse(new Response\TwoFactorLoginSMSResponse());
     }
 
+    /////// TODO Alberto INI
     /**
      * Send the choice to get the verification code in case of checkppoint.
      * @param  string $apiPath Challange api path
@@ -761,7 +763,7 @@ class Instagram implements ExperimentsInterface
  
         return $response;
     }
-
+    /////// TODO Alberto END
 
     /**
      * Request information about available password recovery methods for an account.
@@ -1022,8 +1024,7 @@ class Instagram implements ExperimentsInterface
         // This check is just protection against accidental bugs. It makes sure
         // that we always call this function with a *successful* login response!
         if (!$response instanceof Response\LoginResponse
-            || !$response->isOk()
-            || !$response->getLoggedInUser()) {
+            || !$response->isOk()) {
             throw new \InvalidArgumentException('Invalid login response provided to _updateLoginState().');
         }
 
@@ -1117,7 +1118,7 @@ class Instagram implements ExperimentsInterface
      *                                                   flow attempt, otherwise
      *                                                   `NULL`.
      */
-    protected function _sendLoginFlow(
+    public function _sendLoginFlow( // TODO Alberto
         $justLoggedIn,
         $appRefreshInterval = 1800)
     {
@@ -1165,13 +1166,13 @@ class Instagram implements ExperimentsInterface
             $this->direct->getRankedRecipients('reshare', true);
             $this->direct->getRankedRecipients('raven', true);
             $this->direct->getInbox();
+            //$this->internal->logResurrectAttribution();
             $this->direct->getPresences();
             $this->people->getRecentActivityInbox();
-            if ((int) $this->getExperimentParam('ig_android_loom_universe', 'cpu_sampling_rate_ms', 0) > 0) {
-                $this->internal->getLoomFetchConfig();
-            }
+            $this->internal->getLoomFetchConfig();
             $this->internal->getProfileNotice();
             $this->media->getBlockedMedia();
+            //$this->account->getProcessContactPointSignals();
             $this->people->getBootstrapUsers();
             //$this->internal->getQPCooldowns();
             $this->discover->getExploreFeed(null, true);
@@ -1257,6 +1258,7 @@ class Instagram implements ExperimentsInterface
     public function logout()
     {
         $response = $this->request('accounts/logout/')
+            ->setSignedPost(false)
             ->addPost('phone_id', $this->phone_id)
             ->addPost('_csrftoken', $this->client->getToken())
             ->addPost('guid', $this->uuid)

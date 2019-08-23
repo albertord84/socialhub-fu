@@ -31,7 +31,7 @@ class Hashtag extends RequestCollection
             ->getResponse(new Response\TagInfoResponse());
     }
 
-     /**
+    /**
      * Get hashtag story.
      *
      * @param string $hashtag The hashtag, not including the "#".
@@ -49,7 +49,7 @@ class Hashtag extends RequestCollection
         return $this->ig->request("tags/{$urlHashtag}/story/")
             ->getResponse(new Response\TagsStoryResponse());
     }
-    
+
     /**
      * Get hashtags from a section.
      *
@@ -57,9 +57,9 @@ class Hashtag extends RequestCollection
      *
      * @param string      $hashtag      The hashtag, not including the "#".
      * @param string      $rankToken    The feed UUID. You must use the same value for all pages of the feed.
-     * @param null|string $tab          Section tab for hashtags.
-     * @param null|int[]  $nextMediaIds Used for pagination.
-     * @param null|string $maxId        Next "maximum ID", used for pagination.
+     * @param string|null $tab          Section tab for hashtags.
+     * @param int[]|null  $nextMediaIds Used for pagination.
+     * @param string|null $maxId        Next "maximum ID", used for pagination.
      *
      * @throws \InvalidArgumentException
      * @throws \InstagramAPI\Exception\InstagramException
@@ -75,19 +75,21 @@ class Hashtag extends RequestCollection
     {
         Utils::throwIfInvalidHashtag($hashtag);
         $urlHashtag = urlencode($hashtag); // Necessary for non-English chars.
-        
+
         $request = $this->ig->request("tags/{$urlHashtag}/sections/")
             ->setSignedPost(false)
-            ->addPost('supported_tabs', "['top','recent','places']")
             ->addPost('_uuid', $this->ig->uuid)
             ->addPost('_csrftoken', $this->ig->client->getToken())
+            ->addPost('rank_token', $rankToken)
             ->addPost('include_persistent', true);
-        
+
         if ($tab !== null) {
-            if ($tab !== 'top' && $tab !== 'recent' && $tab !== 'places') {
-                throw new \InvalidArgumentException('Tab section must be \'top\', \'recent\' or \'places\'.');
+            if ($tab !== 'top' && $tab !== 'recent' && $tab !== 'places' && $tab !== 'discover') {
+                throw new \InvalidArgumentException('Tab section must be \'top\', \'recent\', \'places\' or \'discover\'.');
             }
             $request->addPost('tab', $tab);
+        } else {
+            $request->addPost('supported_tabs', '["top","recent","places","discover"]');
         }
 
         if ($nextMediaIds !== null) {
@@ -235,7 +237,7 @@ class Hashtag extends RequestCollection
      *
      * @param string      $hashtag   The hashtag, not including the "#".
      * @param string      $rankToken The feed UUID. You must use the same value for all pages of the feed.
-     * @param null|string $maxId     Next "maximum ID", used for pagination.
+     * @param string|null $maxId     Next "maximum ID", used for pagination.
      *
      * @throws \InvalidArgumentException
      * @throws \InstagramAPI\Exception\InstagramException

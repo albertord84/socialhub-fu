@@ -1,10 +1,10 @@
 <?php
 
- namespace InstagramAPI\Response\Model;
+namespace InstagramAPI\Response\Model;
 
- use InstagramAPI\AutoPropertyMapper;
+use InstagramAPI\AutoPropertyMapper;
 
- /**
+/**
  * VideoCallEvent.
  *
  * @method string getAction()

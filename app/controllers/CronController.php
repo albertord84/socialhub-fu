@@ -15,7 +15,7 @@ class CronController extends Controller
 
         \Event::trigger("cron.add");
 
-        echo "Cron task processed!";
+        echo "Cron task processed 2!";
     }
 
 

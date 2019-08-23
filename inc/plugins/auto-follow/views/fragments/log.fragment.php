@@ -95,18 +95,18 @@
                                 <?= __("Next request will be sent in a few moments") ?>
                             </div>
                         <?php else: ?>
-                            <div class="af-log-list-item error">
+                            <div class="af-log-list-item">
                                 <div class="clearfix">
                                     <span class="circle">
-                                        <span class="text">E</span>
+                                        <span class="text">!</span>
                                     </span>
 
                                     <div class="inner clearfix">
                                         <div class="action">
-                                            <div class="error-msg">
-                                                <?= __("Something is wrong on the system") ?>
+                                            <div class="af-next-schedule">
+                                                <?= __("Activity has been stopped") ?>
                                             </div>
-                                            <div class="error-details"><?= __("System task error") ?></div>
+                                            <div class="error-details"><?= __("Activity has been stopped") ?></div>
                                         </div>
                                     </div>
                                 </div>
