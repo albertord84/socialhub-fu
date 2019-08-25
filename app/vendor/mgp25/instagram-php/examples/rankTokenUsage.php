@@ -6,12 +6,12 @@ date_default_timezone_set('UTC');
 require __DIR__ . '/../../../../vendor/autoload.php';
 
 /////// CONFIG ///////
-// $username = 'alberto_dreyes';
-// $password = 'Alredi19';
+$username = 'alberto_dreyes';
+$password = 'Alredi19';
 // $username = 'marcos.socialhub';
 // $password = 'Marcos*01+123';
-$username = 'alberto_test';
-$password = 'alberto3';
+// $username = 'alberto_test';
+// $password = 'alberto3';
 // $username = 'socialhub.pro';
 // $password = 'Marcos*01+123000';
 $proxy = "http://albertreye9917:3r4rcz0b1v@207.188.155.18:21316";
@@ -96,17 +96,17 @@ try {
 function isValidProxy($proxy)
 {
     if (!is_string($proxy) && !is_array($proxy)) {
-        return false;        
+        return false;
     }
 
     try {
         $client = new \GuzzleHttp\Client();
-        $res = $client->request('GET', 'http://www.instagram.com', 
-                                [
-                                    "verify" => false,
-                                    "timeout" => 10,
-                                    "proxy" => $proxy
-                                ]);
+        $res = $client->request('GET', 'http://www.instagram.com',
+            [
+                "verify" => false,
+                "timeout" => 10,
+                "proxy" => $proxy,
+            ]);
         $code = $res->getStatusCode();
     } catch (\Exception $e) {
         return false;
