@@ -14,9 +14,11 @@ $password = 'Alredi19';
 // $password = 'alberto3';
 // $username = 'socialhub.pro';
 // $password = 'Marcos*01+123000';
+
 $proxy = "http://albertreye9917:3r4rcz0b1v@207.188.155.18:21316";
 $debug = false;
 $debug = true;
+
 $truncatedDebug = false;
 //////////////////////
 
