@@ -237,7 +237,7 @@ function addCronTask()
             $delta = round(3600 / $speed);
 
             if ($settings->get("data.random_delay")) {
-                $delay = rand(0, 300);
+                $delay = rand(0, 500);
                 $delta += $delay;
             }
         } else {
@@ -657,9 +657,22 @@ function addCronTask()
 
             $resp = $Instagram->people->follow($follow_pk);
 
+        } catch (\InstagramAPI\Exception\FeedbackRequiredException $e) {
+            $Log->set("data.error.msg", "FeedbackRequiredException")
+                ->set("data.error.details", "FeedbackRequiredException")
+                ->save();
+            $next_schedule = date("Y-m-d H:i:s", time() + 24 * 60 * 60);
+            $sc->set("schedule_date", $next_schedule)
+                ->set("last_action_date", date("Y-m-d H:i:s"))
+                ->save();
+            continue;
         } catch (\Exception $e) {
             $Log->set("data.error.msg", "Couldn't follow the user")
                 ->set("data.error.details", $e->getMessage())
+                ->save();
+            $next_schedule = date("Y-m-d H:i:s", time() + 24 * 60 * 60);
+            $sc->set("schedule_date", $next_schedule)
+                ->set("last_action_date", date("Y-m-d H:i:s"))
                 ->save();
             continue;
         }

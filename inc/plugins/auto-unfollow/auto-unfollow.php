@@ -1,11 +1,12 @@
-<?php 
+<?php
 namespace Plugins\AutoUnfollow;
+
 const IDNAME = "auto-unfollow";
 
 // Disable direct access
-if (!defined('APP_VERSION')) 
-    die("Yo, what's up?"); 
-
+if (!defined('APP_VERSION')) {
+    die("Yo, what's up?");
+}
 
 /**
  * Event: plugin.install
@@ -16,59 +17,59 @@ function install($Plugin)
         return false;
     }
 
-    $sql = "CREATE TABLE `".TABLE_PREFIX."auto_unfollow_schedule` ( 
-                `id` INT NOT NULL AUTO_INCREMENT , 
-                `user_id` INT NOT NULL , 
-                `account_id` INT NOT NULL , 
-                `speed` VARCHAR(20) NOT NULL , 
-                `daily_pause` BOOLEAN NOT NULL, 
-                `daily_pause_from` TIME NOT NULL, 
+    $sql = "CREATE TABLE `" . TABLE_PREFIX . "auto_unfollow_schedule` (
+                `id` INT NOT NULL AUTO_INCREMENT ,
+                `user_id` INT NOT NULL ,
+                `account_id` INT NOT NULL ,
+                `speed` VARCHAR(20) NOT NULL ,
+                `daily_pause` BOOLEAN NOT NULL,
+                `daily_pause_from` TIME NOT NULL,
                 `daily_pause_to` TIME NOT NULL,
-                `keep_followers` BOOLEAN NOT NULL , 
-                `whitelist` TEXT NOT NULL , 
+                `keep_followers` BOOLEAN NOT NULL ,
+                `whitelist` TEXT NOT NULL ,
                 `source` VARCHAR(100) NOT NULL ,
-                `is_active` BOOLEAN NOT NULL , 
-                `schedule_date` DATETIME NOT NULL , 
-                `end_date` DATETIME NOT NULL , 
-                `last_action_date` DATETIME NOT NULL , 
+                `is_active` BOOLEAN NOT NULL ,
+                `schedule_date` DATETIME NOT NULL ,
+                `end_date` DATETIME NOT NULL ,
+                `last_action_date` DATETIME NOT NULL ,
                 `data` TEXT NOT NULL,
-                PRIMARY KEY (`id`), 
-                INDEX (`user_id`), 
+                PRIMARY KEY (`id`),
+                INDEX (`user_id`),
                 INDEX (`account_id`)
             ) ENGINE = InnoDB;";
 
-    $sql .= "CREATE TABLE `".TABLE_PREFIX."auto_unfollow_log` ( 
-                `id` INT NOT NULL AUTO_INCREMENT , 
-                `user_id` INT NOT NULL , 
-                `account_id` INT NOT NULL , 
+    $sql .= "CREATE TABLE `" . TABLE_PREFIX . "auto_unfollow_log` (
+                `id` INT NOT NULL AUTO_INCREMENT ,
+                `user_id` INT NOT NULL ,
+                `account_id` INT NOT NULL ,
                 `status` VARCHAR(20) NOT NULL,
                 `unfollowed_user_pk` VARCHAR(50) NOT NULL,
-                `data` TEXT NOT NULL , 
-                `date` DATETIME NOT NULL , 
-                PRIMARY KEY (`id`), 
-                INDEX (`user_id`), 
+                `data` TEXT NOT NULL ,
+                `date` DATETIME NOT NULL ,
+                PRIMARY KEY (`id`),
+                INDEX (`user_id`),
                 INDEX (`account_id`),
                 INDEX (`unfollowed_user_pk`)
             ) ENGINE = InnoDB;";
 
-    $sql .= "ALTER TABLE `".TABLE_PREFIX."auto_unfollow_schedule` 
-                ADD CONSTRAINT `".uniqid("ibfk_")."` FOREIGN KEY (`user_id`) 
-                REFERENCES `".TABLE_PREFIX."users`(`id`) 
+    $sql .= "ALTER TABLE `" . TABLE_PREFIX . "auto_unfollow_schedule`
+                ADD CONSTRAINT `" . uniqid("ibfk_") . "` FOREIGN KEY (`user_id`)
+                REFERENCES `" . TABLE_PREFIX . "users`(`id`)
                 ON DELETE CASCADE ON UPDATE CASCADE;";
 
-    $sql .= "ALTER TABLE `".TABLE_PREFIX."auto_unfollow_schedule` 
-                ADD CONSTRAINT `".uniqid("ibfk_")."` FOREIGN KEY (`account_id`) 
-                REFERENCES `".TABLE_PREFIX."accounts`(`id`) 
+    $sql .= "ALTER TABLE `" . TABLE_PREFIX . "auto_unfollow_schedule`
+                ADD CONSTRAINT `" . uniqid("ibfk_") . "` FOREIGN KEY (`account_id`)
+                REFERENCES `" . TABLE_PREFIX . "accounts`(`id`)
                 ON DELETE CASCADE ON UPDATE CASCADE;";
 
-    $sql .= "ALTER TABLE `".TABLE_PREFIX."auto_unfollow_log` 
-                ADD CONSTRAINT `".uniqid("ibfk_")."` FOREIGN KEY (`user_id`) 
-                REFERENCES `".TABLE_PREFIX."users`(`id`) 
+    $sql .= "ALTER TABLE `" . TABLE_PREFIX . "auto_unfollow_log`
+                ADD CONSTRAINT `" . uniqid("ibfk_") . "` FOREIGN KEY (`user_id`)
+                REFERENCES `" . TABLE_PREFIX . "users`(`id`)
                 ON DELETE CASCADE ON UPDATE CASCADE;";
 
-    $sql .= "ALTER TABLE `".TABLE_PREFIX."auto_unfollow_log` 
-                ADD CONSTRAINT `".uniqid("ibfk_")."` FOREIGN KEY (`account_id`) 
-                REFERENCES `".TABLE_PREFIX."accounts`(`id`) 
+    $sql .= "ALTER TABLE `" . TABLE_PREFIX . "auto_unfollow_log`
+                ADD CONSTRAINT `" . uniqid("ibfk_") . "` FOREIGN KEY (`account_id`)
+                REFERENCES `" . TABLE_PREFIX . "accounts`(`id`)
                 ON DELETE CASCADE ON UPDATE CASCADE;";
 
     $pdo = \DB::pdo();
@@ -76,8 +77,6 @@ function install($Plugin)
     $stmt->execute();
 }
 \Event::bind("plugin.install", __NAMESPACE__ . '\install');
-
-
 
 /**
  * Event: plugin.remove
@@ -92,8 +91,8 @@ function uninstall($Plugin)
     $Settings = \Controller::model("GeneralData", "plugin-auto-unfollow-settings");
     $Settings->remove();
 
-    $sql = "DROP TABLE `".TABLE_PREFIX."auto_unfollow_schedule`;";
-    $sql .= "DROP TABLE `".TABLE_PREFIX."auto_unfollow_log`;";
+    $sql = "DROP TABLE `" . TABLE_PREFIX . "auto_unfollow_schedule`;";
+    $sql .= "DROP TABLE `" . TABLE_PREFIX . "auto_unfollow_log`;";
 
     $pdo = \DB::pdo();
     $stmt = $pdo->prepare($sql);
@@ -101,31 +100,30 @@ function uninstall($Plugin)
 }
 \Event::bind("plugin.remove", __NAMESPACE__ . '\uninstall');
 
-
 /**
  * Add module as a package options
  * Only users with correct permission
  * Will be able to use module
- * 
- * @param array $package_modules An array of currently active 
+ *
+ * @param array $package_modules An array of currently active
  *                               modules of the package
  */
 function add_module_option($package_modules)
 {
-    $config = include __DIR__."/config.php";
+    $config = include __DIR__ . "/config.php";
     ?>
         <div class="mt-15">
             <label>
-                <input type="checkbox" 
-                       class="checkbox" 
-                       name="modules[]" 
-                       value="<?= IDNAME ?>" 
-                       <?= in_array(IDNAME, $package_modules) ? "checked" : "" ?>>
+                <input type="checkbox"
+                       class="checkbox"
+                       name="modules[]"
+                       value="<?=IDNAME?>"
+                       <?=in_array(IDNAME, $package_modules) ? "checked" : ""?>>
                 <span>
                     <span class="icon unchecked">
                         <span class="mdi mdi-check"></span>
                     </span>
-                    <?= __('Auto Unfollow') ?>
+                    <?=__('Auto Unfollow')?>
                 </span>
             </label>
         </div>
@@ -133,42 +131,36 @@ function add_module_option($package_modules)
 }
 \Event::bind("package.add_module_option", __NAMESPACE__ . '\add_module_option');
 
-
-
-
-
 /**
  * Map routes
  */
 function route_maps($global_variable_name)
 {
     // Settings (admin only)
-    $GLOBALS[$global_variable_name]->map("GET|POST", "/e/".IDNAME."/settings/?", [
-        PLUGINS_PATH . "/". IDNAME ."/controllers/SettingsController.php",
-        __NAMESPACE__ . "\SettingsController"
+    $GLOBALS[$global_variable_name]->map("GET|POST", "/e/" . IDNAME . "/settings/?", [
+        PLUGINS_PATH . "/" . IDNAME . "/controllers/SettingsController.php",
+        __NAMESPACE__ . "\SettingsController",
     ]);
 
     // Index
-    $GLOBALS[$global_variable_name]->map("GET|POST", "/e/".IDNAME."/?", [
-        PLUGINS_PATH . "/". IDNAME ."/controllers/IndexController.php",
-        __NAMESPACE__ . "\IndexController"
+    $GLOBALS[$global_variable_name]->map("GET|POST", "/e/" . IDNAME . "/?", [
+        PLUGINS_PATH . "/" . IDNAME . "/controllers/IndexController.php",
+        __NAMESPACE__ . "\IndexController",
     ]);
 
     // Schedule
-    $GLOBALS[$global_variable_name]->map("GET|POST", "/e/".IDNAME."/[i:id]/?", [
-        PLUGINS_PATH . "/". IDNAME ."/controllers/ScheduleController.php",
-        __NAMESPACE__ . "\ScheduleController"
+    $GLOBALS[$global_variable_name]->map("GET|POST", "/e/" . IDNAME . "/[i:id]/?", [
+        PLUGINS_PATH . "/" . IDNAME . "/controllers/ScheduleController.php",
+        __NAMESPACE__ . "\ScheduleController",
     ]);
 
     // Log
-    $GLOBALS[$global_variable_name]->map("GET|POST", "/e/".IDNAME."/[i:id]/log/?", [
-        PLUGINS_PATH . "/". IDNAME ."/controllers/LogController.php",
-        __NAMESPACE__ . "\LogController"
+    $GLOBALS[$global_variable_name]->map("GET|POST", "/e/" . IDNAME . "/[i:id]/log/?", [
+        PLUGINS_PATH . "/" . IDNAME . "/controllers/LogController.php",
+        __NAMESPACE__ . "\LogController",
     ]);
 }
 \Event::bind("router.map", __NAMESPACE__ . '\route_maps');
-
-
 
 /**
  * Event: navigation.add_special_menu
@@ -180,26 +172,23 @@ function navigation($Nav, $AuthUser)
 }
 \Event::bind("navigation.add_special_menu", __NAMESPACE__ . '\navigation');
 
-
-
 /**
  * Add cron task to unfollow users
  */
 function addCronTask()
 {
-    require_once __DIR__."/models/SchedulesModel.php";
-    require_once __DIR__."/models/LogModel.php";
-
+    require_once __DIR__ . "/models/SchedulesModel.php";
+    require_once __DIR__ . "/models/LogModel.php";
 
     // Get auto unfollow schedules
     $Schedules = new SchedulesModel;
     $Schedules->where("is_active", "=", 1)
-              ->where("schedule_date", "<=", date("Y-m-d H:i:s"))
-              ->where("end_date", ">=", date("Y-m-d H:i:s"))
-              ->orderBy("last_action_date", "ASC")
-              ->setPageSize(10) // required to prevent server overload
-              ->setPage(1)
-              ->fetchData();
+        ->where("schedule_date", "<=", date("Y-m-d H:i:s"))
+        ->where("end_date", ">=", date("Y-m-d H:i:s"))
+        ->orderBy("last_action_date", "ASC")
+        ->setPageSize(10) // required to prevent server overload
+        ->setPage(1)
+        ->fetchData();
 
     if ($Schedules->getTotalCount() < 1) {
         return false;
@@ -221,8 +210,7 @@ function addCronTask()
     }
     $speeds = array_merge($default_speeds, $speeds);
 
-
-    $as = [__DIR__."/models/ScheduleModel.php", __NAMESPACE__. "\ScheduleModel"];
+    $as = [__DIR__ . "/models/ScheduleModel.php", __NAMESPACE__ . "\ScheduleModel"];
     foreach ($Schedules->getDataAs($as) as $sc) {
         $Log = new LogModel;
         $Account = \Controller::model("Account", $sc->get("account_id"));
@@ -233,23 +221,22 @@ function addCronTask()
         $source = "all";
 
         // Define source
-        $auto_follow_log_model_path = PLUGINS_PATH."/auto-follow/models/LogModel.php";
-        if ($sc->get("source") == "auto-follow" && 
+        $auto_follow_log_model_path = PLUGINS_PATH . "/auto-follow/models/LogModel.php";
+        if ($sc->get("source") == "auto-follow" &&
             in_array("auto-follow", $User->get("settings.modules")) &&
-            isset($auto_follow_log_model_path) && 
-            in_array("auto-follow", array_keys($GLOBALS["_PLUGINS_"]))) 
-        {
-            require_once PLUGINS_PATH."/auto-follow/models/LogModel.php";
+            isset($auto_follow_log_model_path) &&
+            in_array("auto-follow", array_keys($GLOBALS["_PLUGINS_"]))) {
+            require_once PLUGINS_PATH . "/auto-follow/models/LogModel.php";
             $source = "auto-follow";
         }
 
         // Calculate next schedule datetime...
-        if (isset($speeds[$sc->get("speed")]) && (int)$speeds[$sc->get("speed")] > 0) {
-            $speed = (int)$speeds[$sc->get("speed")];
-            $delta = round(3600/$speed);
+        if (isset($speeds[$sc->get("speed")]) && (int) $speeds[$sc->get("speed")] > 0) {
+            $speed = (int) $speeds[$sc->get("speed")];
+            $delta = round(3600 / $speed);
 
             if ($settings->get("data.random_delay")) {
-                $delay = rand(0, 300);
+                $delay = rand(0, 500);
                 $delta += $delay;
             }
         } else {
@@ -258,11 +245,11 @@ function addCronTask()
 
         $next_schedule = date("Y-m-d H:i:s", time() + $delta);
         if ($sc->get("daily_pause")) {
-            $pause_from = date("Y-m-d")." ".$sc->get("daily_pause_from");
-            $pause_to = date("Y-m-d")." ".$sc->get("daily_pause_to");
+            $pause_from = date("Y-m-d") . " " . $sc->get("daily_pause_from");
+            $pause_to = date("Y-m-d") . " " . $sc->get("daily_pause_to");
             if ($pause_to <= $pause_from) {
                 // next day
-                $pause_to = date("Y-m-d", time() + 86400)." ".$sc->get("daily_pause_to");
+                $pause_to = date("Y-m-d", time() + 86400) . " " . $sc->get("daily_pause_to");
             }
 
             if ($next_schedule > $pause_to) {
@@ -277,15 +264,13 @@ function addCronTask()
         }
 
         $sc->set("schedule_date", $next_schedule)
-           ->set("last_action_date", date("Y-m-d H:i:s"))
-           ->save();
-
+            ->set("last_action_date", date("Y-m-d H:i:s"))
+            ->save();
 
         // Set default values for the log...
         $Log->set("user_id", $User->get("id"))
             ->set("account_id", $Account->get("id"))
             ->set("status", "error");
-
 
         if (!$Account->isAvailable() || $Account->get("login_required")) {
             // Account is either removed (unexpected, external factors)
@@ -320,7 +305,6 @@ function addCronTask()
             continue;
         }
 
-
         try {
             $Instagram = \InstagramController::login($Account);
         } catch (\Exception $e) {
@@ -340,11 +324,10 @@ function addCronTask()
             continue;
         }
 
-
         // Logged in successfully
         // Now script will try to get followings and unfollow a user
         // And will log result
-        
+
         // Find username to unfollow
         try {
             $rank_token = \InstagramAPI\Signatures::generateUUID();
@@ -362,7 +345,6 @@ function addCronTask()
                 ->save();
             continue;
         }
-        
 
         if (count($following->getUsers()) < 1) {
             // Couldn't find any user to unfollow
@@ -373,7 +355,6 @@ function addCronTask()
                 ->save();
             continue;
         }
-
 
         // Reverse order users
         $following_users = array_reverse($following->getUsers());
@@ -406,14 +387,12 @@ function addCronTask()
                 continue;
             }
 
-
             if ($followers->isOk()) {
                 foreach ($followers->getUsers() as $user) {
                     $follower_pks[] = $user->getPk();
                 }
             }
         }
-
 
         // Find user to unfollow
         $unfollow_pk = null;
@@ -434,7 +413,7 @@ function addCronTask()
                     "user_id" => $User->get("id"),
                     "account_id" => $Account->get("id"),
                     "followed_user_pk" => $pk,
-                    "status" => "success"
+                    "status" => "success",
                 ]);
 
                 if (!$_log->isAvailable()) {
@@ -443,13 +422,12 @@ function addCronTask()
                 }
             }
 
-
             // Check if unfollow request has been sent before
             $_log = new LogModel([
                 "user_id" => $User->get("id"),
                 "account_id" => $Account->get("id"),
                 "unfollowed_user_pk" => $pk,
-                "status" => "success"
+                "status" => "success",
             ]);
 
             if ($_log->isAvailable()) {
@@ -457,13 +435,12 @@ function addCronTask()
                 continue;
             }
 
-
             $unfollow_pk = $usr->getPk();
             $unfollow_username = $usr->getUsername();
             $unfollow_full_name = $usr->getFullName();
             $unfollow_profile_pic_url = $usr->getProfilePicUrl();
 
-            break;                
+            break;
         }
 
         if (empty($unfollow_pk)) {
@@ -474,19 +451,19 @@ function addCronTask()
 
             // Check auto stop
             // Get latest activity logs
-            $ActivityLog = \Controller::model([PLUGINS_PATH."/".IDNAME."/models/LogsModel.php", 
-                                              __NAMESPACE__."\LogsModel"]);
+            $ActivityLog = \Controller::model([PLUGINS_PATH . "/" . IDNAME . "/models/LogsModel.php",
+                __NAMESPACE__ . "\LogsModel"]);
             $ActivityLog->setPageSize(3)
-                        ->setPage(\Input::get("page"))
-                        ->where("user_id", "=", $User->get("id"))
-                        ->where("account_id", "=", $Account->get("id"))
-                        ->orderBy("id","DESC")
-                        ->fetchData();
+                ->setPage(\Input::get("page"))
+                ->where("user_id", "=", $User->get("id"))
+                ->where("account_id", "=", $Account->get("id"))
+                ->orderBy("id", "DESC")
+                ->fetchData();
             if ($ActivityLog->getTotalCount() > 0) {
                 $not_found_count = 0;
 
-                $as = [PLUGINS_PATH."/".IDNAME."/models/LogModel.php", 
-                       __NAMESPACE__."\LogModel"];
+                $as = [PLUGINS_PATH . "/" . IDNAME . "/models/LogModel.php",
+                    __NAMESPACE__ . "\LogModel"];
                 foreach ($ActivityLog->getDataAs($as) as $l) {
                     if ($l->get("data.error.msg") == "Couldn't find any user to unfollow") {
                         $not_found_count++;
@@ -506,10 +483,18 @@ function addCronTask()
             continue;
         }
 
-        
         // Unfollow the found account
         try {
             $resp = $Instagram->people->unfollow($unfollow_pk);
+        } catch (\InstagramAPI\Exception\FeedbackRequiredException $e) {
+            $Log->set("data.error.msg", "FeedbackRequiredException")
+                ->set("data.error.details", "FeedbackRequiredException")
+                ->save();
+            $next_schedule = date("Y-m-d H:i:s", time() + 24 * 60 * 60);
+            $sc->set("schedule_date", $next_schedule)
+                ->set("last_action_date", date("Y-m-d H:i:s"))
+                ->save();
+            continue;
         } catch (\Exception $e) {
             $msg = $e->getMessage();
             $msg = explode(":", $msg, 2);
@@ -518,6 +503,11 @@ function addCronTask()
             $Log->set("data.error.msg", "Couldn't unfollow the user")
                 ->set("data.error.details", $msg)
                 ->save();
+
+            $next_schedule = date("Y-m-d H:i:s", time() + 24 * 60 * 60);
+            $sc->set("schedule_date", $next_schedule)
+                ->set("last_action_date", date("Y-m-d H:i:s"))
+                ->save();
             continue;
         }
 
@@ -525,9 +515,8 @@ function addCronTask()
             $Log->set("data.error.msg", "Couldn't unfollow the user")
                 ->set("data.error.details", "Something went wrong")
                 ->save();
-            continue;   
+            continue;
         }
-
 
         // Unfollowed the account successfully
         $Log->set("status", "success")
@@ -535,19 +524,17 @@ function addCronTask()
                 "pk" => $unfollow_pk,
                 "username" => $unfollow_username,
                 "full_name" => $unfollow_full_name,
-                "profile_pic_url" => $unfollow_profile_pic_url
+                "profile_pic_url" => $unfollow_profile_pic_url,
             ])
             ->set("unfollowed_user_pk", $unfollow_pk)
             ->save();
     }
 }
-\Event::bind("cron.add", __NAMESPACE__."\addCronTask");
-
-
+\Event::bind("cron.add", __NAMESPACE__ . "\addCronTask");
 
 /**
  * Get Plugin Settings
- * @return \GeneralDataModel 
+ * @return \GeneralDataModel
  */
 function settings()
 {
