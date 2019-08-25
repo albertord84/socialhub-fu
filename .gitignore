@@ -1,3 +1,5 @@
+error_log
+
 app/db.config.php
 
 # Glue terminal files
