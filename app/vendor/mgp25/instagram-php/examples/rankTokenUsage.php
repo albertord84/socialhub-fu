@@ -6,6 +6,8 @@ date_default_timezone_set('UTC');
 require __DIR__ . '/../../../../vendor/autoload.php';
 
 /////// CONFIG ///////
+// $username = 'thiagobrunodias';
+// $password = 'luna2307';
 $username = 'alberto_dreyes';
 $password = 'Alredi19';
 // $username = 'marcos.socialhub';
@@ -15,14 +17,15 @@ $password = 'Alredi19';
 // $username = 'socialhub.pro';
 // $password = 'Marcos*01+123000';
 
-$proxy = "http://albertreye9917:3r4rcz0b1v@207.188.155.18:21316";
+// $proxy = "http://albertosocialhub:albertosocialhubproxy@br.smartproxy.com:16390";
+$proxy = "http://albertreye9917:3r4rcz0b1v@154.9.65.179:21266";
 $debug = false;
 $debug = true;
 
 $truncatedDebug = false;
 //////////////////////
 
-\InstagramAPI\Instagram::$allowDangerousWebUsageAtMyOwnRisk = true;
+\InstagramAPI\Instagram::$allowDangerousWebUsageAtMyOwnRisk = false;
 $ig = new \InstagramAPI\Instagram($debug, $truncatedDebug);
 
 if ($proxy && isValidProxy($proxy)) {
@@ -58,16 +61,16 @@ try {
     // $response = $ig->hashtag->getFeed($tag, $rankToken, $maxId);
     $response = $ig->location->getFeed($tag, $rankToken);
 
-    $collectRecentItems = array();
-    foreach ($response->getSections() as $items) {
-        foreach ($items->getLayoutContent()->getMedias() as $item) {
-            array_push($collectRecentItems, $item->getMedia());
-            $mediaCounter += 1;
-        }
-    }
+    // $collectRecentItems = array();
+    // foreach ($response->getSections() as $items) {
+    //     foreach ($items->getLayoutContent()->getMedias() as $item) {
+    //         array_push($collectRecentItems, $item->getMedia());
+    //         $mediaCounter += 1;
+    //     }
+    // }
 
-    // ddd($response);
-    dd($collectRecentItems);
+    ddd($response);
+    // dd($collectRecentItems);
 
     // In this example we're simply printing the IDs of this page's items.
     // foreach ($items as $item) {
@@ -116,3 +119,5 @@ function isValidProxy($proxy)
 
     return $code == 200;
 }
+
+?>
