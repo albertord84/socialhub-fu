@@ -71,7 +71,7 @@ class InstagramController extends Controller
                 if ($last_login_timestamp && $last_login_timestamp + 3 * 60 * 60 > time()) { 
                     // TODO Alberto
                     // Recent login, there is no need to re-send login flow
-                    $Instagram::$isMaybeLoggedIn = true;
+                    $Instagram->isMaybeLoggedIn = true;
                   //   $Instagram->_sendLoginFlow(false);
            }
            $login_resp = $Instagram->login($Account->get("username"), $password, 5800);
