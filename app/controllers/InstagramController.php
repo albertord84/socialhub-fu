@@ -71,7 +71,7 @@ class InstagramController extends Controller
               // Recent login, there is no need to re-send login flow
             //   $Instagram->_sendLoginFlow(false);
            }
-           $login_resp = $Instagram->login($Account->get("username"), $password);
+           $login_resp = $Instagram->login($Account->get("username"), $password, 5800);
            if ($login_resp !== null && $login_resp->isTwoFactorRequired()) {
               $Account->set("login_required", 1)->update();
               $text[0] = __("2FA not supported");
