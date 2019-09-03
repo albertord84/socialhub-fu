@@ -173,7 +173,7 @@ class AccountController extends Controller
         // Remove previous session folder to make guarantee full relogin
         $session_dir = SESSIONS_PATH . "/" . $AuthUser->get("id") . "/" . $this->username;
         if (file_exists($session_dir)) {
-            @delete($session_dir);
+            $resp = @delete($session_dir);
         }   
 
         // Encrypt the password

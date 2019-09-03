@@ -8,17 +8,17 @@ require __DIR__ . '/../../../../vendor/autoload.php';
 /////// CONFIG ///////
 // $username = 'thiagobrunodias';
 // $password = 'luna2307';
-$username = 'alberto_dreyes';
-$password = 'Alredi19';
+// $username = 'alberto_dreyes';
+// $password = 'Alredi19';
 // $username = 'marcos.socialhub';
 // $password = 'Marcos*01+123';
-// $username = 'alberto_test';
-// $password = 'alberto3';
+$username = 'alberto_test';
+$password = 'alberto3';
 // $username = 'socialhub.pro';
 // $password = 'Marcos*01+123000';
 
 // $proxy = "http://albertosocialhub:albertosocialhubproxy@br.smartproxy.com:16390";
-$proxy = "http://albertreye9917:3r4rcz0b1v@154.9.65.179:21266";
+$proxy = "http://albertreye9917:3r4rcz0b1v@154.12.65.147:21290";
 $debug = false;
 $debug = true;
 
@@ -49,7 +49,7 @@ try {
     $rankToken = \InstagramAPI\Signatures::generateUUID();
 
     // $ig->session_id = "";
-    var_dump($tag);
+    // var_dump($tag);
     $resp = $ig->people->follow("5439579511");
     ddd($resp);
 
@@ -59,7 +59,7 @@ try {
     // Request the page corresponding to maxId.
     // Note that we are using the same rank token for all pages.
     // $response = $ig->hashtag->getFeed($tag, $rankToken, $maxId);
-    $response = $ig->location->getFeed($tag, $rankToken);
+    // $response = $ig->location->getFeed($tag, $rankToken);
 
     // $collectRecentItems = array();
     // foreach ($response->getSections() as $items) {
@@ -69,7 +69,7 @@ try {
     //     }
     // }
 
-    ddd($response);
+    // ddd($response);
     // dd($collectRecentItems);
 
     // In this example we're simply printing the IDs of this page's items.

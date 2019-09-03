@@ -237,7 +237,7 @@ function addCronTask()
             $delta = round(3600 / $speed);
 
             if ($settings->get("data.random_delay")) {
-                $delay = rand(0, 500);
+                $delay = rand(0, 700);
                 $delta += $delay;
             }
         } else {
