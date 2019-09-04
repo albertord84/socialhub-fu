@@ -664,6 +664,29 @@ class Instagram implements ExperimentsInterface
             ->getResponse(new Response\TwoFactorLoginSMSResponse());
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /////// TODO Alberto INI
     /**
      * Send the choice to get the verification code in case of checkppoint.
@@ -757,13 +780,59 @@ class Instagram implements ExperimentsInterface
             ->setNeedsAuth(false)
             ->addPost('security_code', $securityCode)
             ->getResponse(new Response\LoginResponse());
+        // $response = $this->request(ltrim($apiPath, "/"))
+        //     ->setNeedsAuth(false)
+        //     ->addPost('security_code', $securityCode)
+        //     ->addPost('_csrftoken', $this->client->getToken())
+        //     ->addPost('guid', $this->uuid)
+        //     ->addPost('device_id', $this->device_id)
+        //     ->getResponse(new Response\LoginResponse());
 
+        $prettyRespose1 = $response->printJson();
+        $prettyRespose2 = $response->asStdClass();
         $this->_updateLoginState($response);
         $this->_sendLoginFlow(true, $appRefreshInterval);
  
         return $response;
     }
     /////// TODO Alberto END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Request information about available password recovery methods for an account.

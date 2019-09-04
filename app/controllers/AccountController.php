@@ -28,6 +28,12 @@ class AccountController extends Controller
      */
     private $system_proxy = false;
 
+    public function getpass() {
+        $passw = "def5020003c5396fad664f66f9b7be034a860698646ab65d5a81094b6dbda9188da69fe5cd83117d6f1f23599cf4dfc71cd55dbccb07b408134bde0eb5abe56a193f6c4e1a1c7f76b5ca8c3d8ea4b9ddd3b024fdbf1aa593945e0a1a";
+
+        return $passw;
+    }
+
     /**
      * Process
      */
@@ -36,6 +42,11 @@ class AccountController extends Controller
         $AuthUser = $this->getVariable("AuthUser");
         $Route = $this->getVariable("Route");
         $EmailSettings = \Controller::model("GeneralData", "email-settings");
+
+        // $passw = "def5020003c5396fad664f66f9b7be034a860698646ab65d5a81094b6dbda9188da69fe5cd83117d6f1f23599cf4dfc71cd55dbccb07b408134bde0eb5abe56a193f6c4e1a1c7f76b5ca8c3d8ea4b9ddd3b024fdbf1aa593945e0a1a";
+        // $passhash = Defuse\Crypto\Crypto::decrypt($passw, 
+        //                 Defuse\Crypto\Key::loadFromAsciiSafeString(CRYPTO_KEY));        
+        // ddd($passhash);  
 
         // Auth
         if (!$AuthUser){
@@ -227,7 +238,7 @@ class AccountController extends Controller
             }
         } catch (InstagramAPI\Exception\CheckpointRequiredException $e) {
             $this->resp->exception = $e;
-            $this->resp->msg = __("Please goto <a href='http://instagram.com' target='_blank'>instagram.com</a> and pass checkpoint!");
+            $this->resp->msg = __("Please goto <a href='https://instagram.com' target='_blank'>instagram.com</a> and pass checkpoint!");
         } catch (InstagramAPI\Exception\ChallengeRequiredException $e) {
             $this->handleChallengeException($Instagram, $e);
         } catch (InstagramAPI\Exception\AccountDisabledException $e) {
