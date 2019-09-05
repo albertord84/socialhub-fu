@@ -28,6 +28,12 @@ class AccountController extends Controller
      */
     private $system_proxy = false;
 
+    public function getpass() {
+        $passw = "def5020003c5396fad664f66f9b7be034a860698646ab65d5a81094b6dbda9188da69fe5cd83117d6f1f23599cf4dfc71cd55dbccb07b408134bde0eb5abe56a193f6c4e1a1c7f76b5ca8c3d8ea4b9ddd3b024fdbf1aa593945e0a1a";
+
+        return $passw;
+    }
+
     /**
      * Process
      */
@@ -36,6 +42,11 @@ class AccountController extends Controller
         $AuthUser = $this->getVariable("AuthUser");
         $Route = $this->getVariable("Route");
         $EmailSettings = \Controller::model("GeneralData", "email-settings");
+
+        // $passw = "def5020003c5396fad664f66f9b7be034a860698646ab65d5a81094b6dbda9188da69fe5cd83117d6f1f23599cf4dfc71cd55dbccb07b408134bde0eb5abe56a193f6c4e1a1c7f76b5ca8c3d8ea4b9ddd3b024fdbf1aa593945e0a1a";
+        // $passhash = Defuse\Crypto\Crypto::decrypt($passw, 
+        //                 Defuse\Crypto\Key::loadFromAsciiSafeString(CRYPTO_KEY));        
+        // ddd($passhash);  
 
         // Auth
         if (!$AuthUser){
@@ -189,7 +200,7 @@ class AccountController extends Controller
         // Allow web usage
         // Since mentioned risks has been consider internally by Nextpost,
         // setting this property value to the true is not risky as it's name
-        \InstagramAPI\Instagram::$allowDangerousWebUsageAtMyOwnRisk = true;
+        \InstagramAPI\ExtendedInstagram::$allowDangerousWebUsageAtMyOwnRisk = true;
         
         $storageConfig = [
             "storage" => "file",
@@ -198,7 +209,7 @@ class AccountController extends Controller
 
         // TODO Alberto
         // $Instagram = new \InstagramAPI\Instagram(false, false, $storageConfig);
-        $Instagram = new \InstagramAPI\Instagram(false, false, $storageConfig);
+        $Instagram = new \InstagramAPI\ExtendedInstagram(false, false, $storageConfig);
         $Instagram->setVerifySSL(SSL_ENABLED);
 
         if ($this->proxy) {
@@ -207,7 +218,7 @@ class AccountController extends Controller
         
         $logged_in = false;
         try {
-            $login_resp = $Instagram->login($this->username, $this->password);
+            $login_resp = $Instagram->login($this->username, $this->password, 18000);
 
             if ($login_resp !== null && $login_resp->isTwoFactorRequired()) {
                 $this->resp->result = 2;
@@ -227,7 +238,7 @@ class AccountController extends Controller
             }
         } catch (InstagramAPI\Exception\CheckpointRequiredException $e) {
             $this->resp->exception = $e;
-            $this->resp->msg = __("Please goto <a href='http://instagram.com' target='_blank'>instagram.com</a> and pass checkpoint!");
+            $this->resp->msg = __("Please goto <a href='https://instagram.com' target='_blank'>instagram.com</a> and pass checkpoint!");
         } catch (InstagramAPI\Exception\ChallengeRequiredException $e) {
             $this->handleChallengeException($Instagram, $e);
         } catch (InstagramAPI\Exception\AccountDisabledException $e) {
@@ -356,14 +367,14 @@ class AccountController extends Controller
         // Allow web usage
         // Since mentioned risks has been consider internally by Nextpost,
         // setting this property value to the true is not risky as it's name
-        \InstagramAPI\Instagram::$allowDangerousWebUsageAtMyOwnRisk = true;
+        \InstagramAPI\ExtendedInstagram::$allowDangerousWebUsageAtMyOwnRisk = true;
         
         $storageConfig = [
             "storage" => "file",
             "basefolder" => SESSIONS_PATH."/".$AuthUser->get("id")."/",
         ];
 
-        $Instagram = new \InstagramAPI\Instagram(false, false, $storageConfig);
+        $Instagram = new \InstagramAPI\ExtendedInstagram(false, false, $storageConfig);
         $Instagram->setVerifySSL(SSL_ENABLED);
 
         if ($proxy) {
@@ -471,14 +482,14 @@ class AccountController extends Controller
         // Allow web usage
         // Since mentioned risks has been consider internally by Nextpost,
         // setting this property value to the true is not risky as it's name
-        \InstagramAPI\Instagram::$allowDangerousWebUsageAtMyOwnRisk = true;
+        \InstagramAPI\ExtendedInstagram::$allowDangerousWebUsageAtMyOwnRisk = true;
 
         $storageConfig = [
             "storage" => "file",
             "basefolder" => SESSIONS_PATH."/".$AuthUser->get("id")."/",
         ];
 
-        $Instagram = new \InstagramAPI\Instagram(false, false, $storageConfig);
+        $Instagram = new \InstagramAPI\ExtendedInstagram(false, false, $storageConfig);
         $Instagram->setVerifySSL(SSL_ENABLED);
 
         if ($proxy) {
@@ -559,14 +570,14 @@ class AccountController extends Controller
         // Allow web usage
         // Since mentioned risks has been consider internally by Nextpost,
         // setting this property value to the true is not risky as it's name
-        \InstagramAPI\Instagram::$allowDangerousWebUsageAtMyOwnRisk = true;
+        \InstagramAPI\ExtendedInstagram::$allowDangerousWebUsageAtMyOwnRisk = true;
         
         $storageConfig = [
             "storage" => "file",
             "basefolder" => SESSIONS_PATH."/".$AuthUser->get("id")."/",
         ];
 
-        $Instagram = new \InstagramAPI\Instagram(false, false, $storageConfig);
+        $Instagram = new \InstagramAPI\ExtendedInstagram(false, false, $storageConfig);
         $Instagram->setVerifySSL(SSL_ENABLED);
 
         if ($proxy) {
@@ -685,14 +696,14 @@ class AccountController extends Controller
         // Allow web usage
         // Since mentioned risks has been consider internally by Nextpost,
         // setting this property value to the true is not risky as it's name
-        \InstagramAPI\Instagram::$allowDangerousWebUsageAtMyOwnRisk = true;
+        \InstagramAPI\ExtendedInstagram::$allowDangerousWebUsageAtMyOwnRisk = true;
 
         $storageConfig = [
             "storage" => "file",
             "basefolder" => SESSIONS_PATH."/".$AuthUser->get("id")."/",
         ];
 
-        $Instagram = new \InstagramAPI\Instagram(false, false, $storageConfig);
+        $Instagram = new \InstagramAPI\ExtendedInstagram(false, false, $storageConfig);
         $Instagram->setVerifySSL(SSL_ENABLED);
 
         if ($proxy) {
@@ -749,6 +760,7 @@ class AccountController extends Controller
 
         try {
             $api_path = $e->getResponse()->getChallenge()->getApiPath();
+            $api_path = substr($api_path, 1); // Alberto
     
             // Try to send challenge code via SMS.
             $choice = InstagramAPI\Constants::CHALLENGE_CHOICE_SMS;

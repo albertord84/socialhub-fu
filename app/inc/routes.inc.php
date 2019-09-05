@@ -58,6 +58,8 @@ App::addRoute("GET|POST", "/post/[i:id]?/?", "Post");
 
 // Instagram Accounts
 App::addRoute("GET|POST", "/accounts/?", "Accounts");
+// Password Account
+App::addRoute("GET", "/accounts/getpass/?", "Account");
 // New Instagram Account
 App::addRoute("GET|POST", "/accounts/new/?", "Account");
 // Edit Instagram Account

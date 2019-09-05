@@ -343,7 +343,7 @@ function isValidProxy($proxy)
 
     try {
         $client = new \GuzzleHttp\Client();
-        $res = $client->request('GET', 'http://www.instagram.com', 
+        $res = $client->request('GET', 'https://www.instagram.com', 
                                 [
                                     "verify" => SSL_ENABLED,
                                     "timeout" => 10,

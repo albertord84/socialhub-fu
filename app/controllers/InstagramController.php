@@ -55,7 +55,7 @@ class InstagramController extends Controller
         ];
         // TODO Alberto
         // $Instagram = new \InstagramAPI\Instagram(false, false, $storage_config);
-        $Instagram = new \InstagramAPI\Instagram(false, false, $storage_config);
+        $Instagram = new \InstagramAPI\ExtendedInstagram(false, false, $storage_config);
         $Instagram->setVerifySSL(SSL_ENABLED);
 
         // Check is valid proxy is available for the account
@@ -65,16 +65,17 @@ class InstagramController extends Controller
 
         // Login to instagram
         try {
-            $last_login_timestamp = strtotime($Account->get("last_login"));
+            // $last_login_timestamp = strtotime($Account->get("last_login"));
             // TODO Alberto
             // if ($last_login_timestamp && $last_login_timestamp + 15 * 60 > time()) { 
-                if ($last_login_timestamp && $last_login_timestamp + 3 * 60 * 60 > time()) { 
+                // if ($last_login_timestamp && $last_login_timestamp + 3 * 60 * 60 > time()) { 
                     // TODO Alberto
                     // Recent login, there is no need to re-send login flow
-                    $Instagram->isMaybeLoggedIn = true;
-                  //   $Instagram->_sendLoginFlow(false);
-           }
-           $login_resp = $Instagram->login($Account->get("username"), $password, 5800);
+                    // $Instagram->isMaybeLoggedIn = true;
+                    // $Instagram->_sendLoginFlow(false);
+		// }
+            // }
+           $login_resp = $Instagram->login($Account->get("username"), $password);
            if ($login_resp !== null && $login_resp->isTwoFactorRequired()) {
               $Account->set("login_required", 1)->update();
               $text[0] = __("2FA not supported");
