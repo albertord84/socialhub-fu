@@ -1,7 +1,6 @@
 <?php
 namespace Plugins\AutoFollow;
 
-
 const IDNAME = "auto-follow";
 
 // Disable direct access
@@ -192,7 +191,7 @@ function addCronTask()
 {
     require_once __DIR__ . "/models/SchedulesModel.php";
     require_once __DIR__ . "/models/LogModel.php";
-    
+
     require_once __DIR__ . "/../../../app/controllers/AccountsController.php";
 
     // Get auto follow schedules
@@ -321,13 +320,7 @@ function addCronTask()
         try {
             $Instagram = \InstagramController::login($Account);
         } catch (\Exception $e) {
-            // Alberto: Try reconntect
-            $reconect = (new \AccountsController())->reconnect($Account);
-            if ($reconect->resp->result == 1) {
-                $Log->set("status", "Reconnect success!!! [Alberto]")->save();
-                return;
-            }
-            //
+
             $Account->refresh();
 
             if ($Account->get("login_required")) {
@@ -667,6 +660,20 @@ function addCronTask()
             $resp = $Instagram->people->follow($follow_pk);
 
         } catch (\InstagramAPI\Exception\FeedbackRequiredException $e) {
+            // Alberto: Try reconntect
+            // Remove previous session folder to make guarantee full relogin
+            $session_dir = SESSIONS_PATH . "/" . $AuthUser->get("id") . "/" . $this->username;
+            if (file_exists($session_dir)) {
+                $resp = @delete($session_dir);
+            }
+            $reconect = (new \AccountsController())->reconnect($Account);
+            if ($reconect->resp->result == 1) {
+                // $Log->set("status", "Reconnect success!!! [Alberto]")->save();
+                $Log->set("data.error.msg", "FeedbackRequiredException")
+                ->set("data.error.details", "FeedbackRequiredException [Reconnect success!!!]")
+                ->save();
+                return;
+            }
             $Log->set("data.error.msg", "FeedbackRequiredException")
                 ->set("data.error.details", "FeedbackRequiredException")
                 ->save();
