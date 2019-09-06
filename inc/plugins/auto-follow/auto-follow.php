@@ -660,21 +660,32 @@ function addCronTask()
             $resp = $Instagram->people->follow($follow_pk);
 
         } catch (\InstagramAPI\Exception\FeedbackRequiredException $e) {
-            // Alberto: Try reconntect
             // Remove previous session folder to make guarantee full relogin
-            $AuthUser = $this->getVariable("AuthUser");
-            $session_dir = SESSIONS_PATH . "/" . $AuthUser->get("id") . "/" . $this->username;
+            $session_dir = SESSIONS_PATH . "/" . $Account->get("user_id") . "/" . $Account->get("username");
             if (file_exists($session_dir)) {
                 @delete($session_dir);
             }
-            $reconect = (new \AccountsController())->reconnect($Account);
+            // Alberto: Try reconntect
+            global $GLOBALS;
+            $GLOBALS['_POST']['id'] = $Account->get("id");
+            $AccountsController = new \AccountsController();
+            $AccountsController->setVariable("AuthUser", $User);
+            $reconect = $AccountsController->reconnect();
             if ($reconect->resp->result == 1) {
                 // $Log->set("status", "Reconnect success!!! [Alberto]")->save();
                 $Log->set("data.error.msg", "FeedbackRequiredException")
-                ->set("data.error.details", "FeedbackRequiredException [Reconnect success!!!]")
-                ->save();
+                    ->set("data.error.details", "FeedbackRequiredException [Reconnect success!!!]")
+                    ->save();
                 return;
             }
+            if ($reconect->resp->result == 1) {
+                // $Log->set("status", "Reconnect success!!! [Alberto]")->save();
+                $Log->set("data.error.msg", "FeedbackRequiredException")
+                    ->set("data.error.details", "FeedbackRequiredException [Reconnect success!!!]")
+                    ->save();
+                return;
+            }
+            // end reconnect
             $Log->set("data.error.msg", "FeedbackRequiredException")
                 ->set("data.error.details", "FeedbackRequiredException")
                 ->save();
