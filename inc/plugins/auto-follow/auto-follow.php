@@ -662,6 +662,7 @@ function addCronTask()
         } catch (\InstagramAPI\Exception\FeedbackRequiredException $e) {
             // Alberto: Try reconntect
             // Remove previous session folder to make guarantee full relogin
+            $AuthUser = $this->getVariable("AuthUser");
             $session_dir = SESSIONS_PATH . "/" . $AuthUser->get("id") . "/" . $this->username;
             if (file_exists($session_dir)) {
                 $resp = @delete($session_dir);
