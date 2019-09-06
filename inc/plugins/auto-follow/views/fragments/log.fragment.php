@@ -124,6 +124,7 @@
                                         <span class="img" style="<?= $img ? "background-image: url('".htmlchars($img)."');" : "" ?>"></span>
                                          </span>
                                     <?php else: ?>
+                                        <!-- Alberto uncommented: -->
                                         <!-- <span class="text">E</span> -->
                                     <?php endif ?>
                                
@@ -159,7 +160,8 @@
                                         <?php else: ?>
                                             <?php if ($l->get("data.error.msg") && !$l->get("data.error.filter_msg")): ?>
                                                 <div class="error-msg">
-                                                    <!-- <?= __($l->get("data.error.msg")) ?> -->
+                                                    <!-- Alberto uncomment: -->
+                                                    <?= __($l->get("data.error.msg")) ?>
                                                     <span class="mdi mdi-check" style="background: #20a200;    padding: 0.25rem 0.4rem;    color: #fff;    font-size: 1.3rem;    border-radius: 1.6rem;"></span>
                                                     Requisição feita com sucesso
                                                     <span class="date" title="<?= $fulldate ?>"><?= $date->fromNow()->getRelative() ?></span>

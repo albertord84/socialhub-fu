@@ -674,7 +674,7 @@ function addCronTask()
             $sc->set("schedule_date", $next_schedule)
                 ->set("last_action_date", date("Y-m-d H:i:s"))
                 ->save();
-            continue;
+            // continue;
         } catch (\Exception $e) {
             $Log->set("data.error.msg", "Couldn't follow the user")
                 ->set("data.error.details", $e->getMessage())
@@ -683,7 +683,7 @@ function addCronTask()
             $sc->set("schedule_date", $next_schedule)
                 ->set("last_action_date", date("Y-m-d H:i:s"))
                 ->save();
-            continue;
+            // continue;
         }
 
         if (!$resp->isOk()) {
@@ -695,11 +695,10 @@ function addCronTask()
             $reconect = (new \AccountsController())->reconnect($Account);
             if ($reconect->resp->result == 1) {
                 $Log->set("status", "Reconnect success!!! [Alberto]")->save();
-                return;
             }
-            //
+            return;
 
-            continue;
+            // continue;
         }
 
         $Log->set("status", "success")
