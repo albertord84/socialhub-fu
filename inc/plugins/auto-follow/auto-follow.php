@@ -665,7 +665,7 @@ function addCronTask()
             $AuthUser = $this->getVariable("AuthUser");
             $session_dir = SESSIONS_PATH . "/" . $AuthUser->get("id") . "/" . $this->username;
             if (file_exists($session_dir)) {
-                $resp = @delete($session_dir);
+                @delete($session_dir);
             }
             $reconect = (new \AccountsController())->reconnect($Account);
             if ($reconect->resp->result == 1) {
