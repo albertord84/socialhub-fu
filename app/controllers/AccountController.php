@@ -218,7 +218,7 @@ class AccountController extends Controller
         
         $logged_in = false;
         try {
-            $login_resp = $Instagram->login($this->username, $this->password, 18000);
+            $login_resp = $Instagram->login($this->username, $this->password);
 
             if ($login_resp !== null && $login_resp->isTwoFactorRequired()) {
                 $this->resp->result = 2;

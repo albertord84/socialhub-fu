@@ -665,7 +665,8 @@ function addCronTask()
             $sc->set("schedule_date", $next_schedule)
                 ->set("last_action_date", date("Y-m-d H:i:s"))
                 ->save();
-            continue;
+            // continue;
+            return;
         } catch (\Exception $e) {
             $Log->set("data.error.msg", "Couldn't follow the user")
                 ->set("data.error.details", $e->getMessage())
@@ -674,14 +675,16 @@ function addCronTask()
             $sc->set("schedule_date", $next_schedule)
                 ->set("last_action_date", date("Y-m-d H:i:s"))
                 ->save();
-            continue;
+            // continue;
+            return;
         }
 
         if (!$resp->isOk()) {
             $Log->set("data.error.msg", "Couldn't follow the user")
                 ->set("data.error.details", "Something went wrong")
                 ->save();
-            continue;
+            return;
+            // continue;
         }
 
         $Log->set("status", "success")

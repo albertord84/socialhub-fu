@@ -1,15 +1,13 @@
 <?php
 
-die("Ok");
-
 set_time_limit(0);
 date_default_timezone_set('UTC');
 
 require __DIR__ . '/../../../../vendor/autoload.php';
 
 /////// CONFIG ///////
-// $username = 'thiagobrunodias';
-// $password = 'luna2307';
+$username = 'thiagobrunodias';
+$password = '2307luna';
 // $username = 'alberto_dreyes';
 // $password = 'albertord1';
 // $username = 'marcos.socialhub';
@@ -19,19 +17,19 @@ require __DIR__ . '/../../../../vendor/autoload.php';
 // $username = 'socialhub.pro';
 // $password = 'Marcos*01+123000';
 
-$username = 'draflavia.drniltoncamposjr';
-$password = 'conexao1';
+// $username = 'draflavia.drniltoncamposjr';
+// $password = 'conexao1';
 
-// $proxy = "http://albertosocialhub:albertosocialhubproxy@br.smartproxy.com:16390";
+$proxy = "http://albertosocialhub:albertosocialhubproxy@br.smartproxy.com:16390";
 // $proxy = "https://EdHgVA:wbydcf@168.235.109.152:29548";
-$proxy = "https://mTNPvr:GZcaDW@168.235.93.240:24272";
+// $proxy = "https://mTNPvr:GZcaDW@168.235.93.240:24272";
 $debug = false;
 $debug = true;
 
-$truncatedDebug = false;
+$truncatedDebug = true;
 //////////////////////
 
-\InstagramAPI\Instagram::$allowDangerousWebUsageAtMyOwnRisk = false;
+\InstagramAPI\Instagram::$allowDangerousWebUsageAtMyOwnRisk = true;
 $ig = new \InstagramAPI\Instagram($debug, $truncatedDebug);
 
 if ($proxy && isValidProxy($proxy)) {
@@ -56,7 +54,7 @@ try {
 
     // $ig->session_id = "";
     // var_dump($tag);
-    // $resp = $ig->people->follow("5439579511");
+    $response = $ig->people->follow("5439579511");
     // ddd($resp);
 
     // Starting at "null" means starting at the first page.
@@ -64,7 +62,7 @@ try {
     // do {
     // Request the page corresponding to maxId.
     // Note that we are using the same rank token for all pages.
-    $response = $ig->hashtag->getFeed($tag, $rankToken, $maxId);
+    // $response = $ig->hashtag->getFeed($tag, $rankToken, $maxId);
     // $response = $ig->location->getFeed($tag, $rankToken);
 
     // $collectRecentItems = array();
