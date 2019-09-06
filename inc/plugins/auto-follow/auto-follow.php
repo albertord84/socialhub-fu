@@ -1,6 +1,7 @@
 <?php
 namespace Plugins\AutoFollow;
 
+
 const IDNAME = "auto-follow";
 
 // Disable direct access
@@ -191,6 +192,8 @@ function addCronTask()
 {
     require_once __DIR__ . "/models/SchedulesModel.php";
     require_once __DIR__ . "/models/LogModel.php";
+    
+    require_once __DIR__ . "/../../../app/controllers/AccountsController.php";
 
     // Get auto follow schedules
     $Schedules = new SchedulesModel;
@@ -318,7 +321,13 @@ function addCronTask()
         try {
             $Instagram = \InstagramController::login($Account);
         } catch (\Exception $e) {
-
+            // Alberto: Try reconntect
+            $reconect = (new \AccountsController())->reconnect($Account);
+            if ($reconect->resp->result == 1) {
+                $Log->set("status", "Reconnect success!!! [Alberto]")->save();
+                return;
+            }
+            //
             $Account->refresh();
 
             if ($Account->get("login_required")) {
@@ -665,8 +674,7 @@ function addCronTask()
             $sc->set("schedule_date", $next_schedule)
                 ->set("last_action_date", date("Y-m-d H:i:s"))
                 ->save();
-            // continue;
-            return;
+            continue;
         } catch (\Exception $e) {
             $Log->set("data.error.msg", "Couldn't follow the user")
                 ->set("data.error.details", $e->getMessage())
@@ -675,16 +683,23 @@ function addCronTask()
             $sc->set("schedule_date", $next_schedule)
                 ->set("last_action_date", date("Y-m-d H:i:s"))
                 ->save();
-            // continue;
-            return;
+            continue;
         }
 
         if (!$resp->isOk()) {
             $Log->set("data.error.msg", "Couldn't follow the user")
                 ->set("data.error.details", "Something went wrong")
                 ->save();
-            return;
-            // continue;
+
+            // Alberto: Try reconntect
+            $reconect = (new \AccountsController())->reconnect($Account);
+            if ($reconect->resp->result == 1) {
+                $Log->set("status", "Reconnect success!!! [Alberto]")->save();
+                return;
+            }
+            //
+
+            continue;
         }
 
         $Log->set("status", "success")

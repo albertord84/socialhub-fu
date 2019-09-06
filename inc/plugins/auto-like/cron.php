@@ -304,6 +304,7 @@ function _like_from_target($sc, $Instagram)
             $feed = $Instagram->hashtag->getFeed(
                 $hashtag,
                 $rank_token);
+            $items = $feed->getItems();
         } catch (\Exception $e) {
             // Couldn't get instagram feed related to the hashtag
             // Log data
@@ -317,7 +318,6 @@ function _like_from_target($sc, $Instagram)
             return false;
         }
 
-        $items = $feed->getItems();
     } else if ($target->type == "location") {
         $like_module = "feed_contextual_location";
         $like_extra_data['location_id'] = $target->id;
@@ -326,20 +326,20 @@ function _like_from_target($sc, $Instagram)
             $feed = $Instagram->location->getFeed(
                 $target->id,
                 $rank_token);
+            $items = $feed->getItems();
         } catch (\Exception $e) {
-            // Couldn't get instagram feed related to the hashtag
+            // Couldn't get instagram feed related to the location
             // Log data
             $msg = $e->getMessage();
             $msg = explode(":", $msg, 2);
             $msg = isset($msg[1]) ? $msg[1] : $msg[0];
 
-            $Log->set("data.error.msg", "Couldn't get the feed")
+            $Log->set("data.error.msg", "Couldn't get the location feed (CONTACT ALBERTO!)")
                 ->set("data.error.details", $msg)
                 ->save();
             return false;
         }
 
-        $items = $feed->getItems();
     } else if ($target->type == "people") {
         $like_module = "profile";
         $like_extra_data['username'] = $target->value;
@@ -347,6 +347,7 @@ function _like_from_target($sc, $Instagram)
 
         try {
             $feed = $Instagram->timeline->getUserFeed($target->id);
+            $items = $feed->getItems();
         } catch (\Exception $e) {
             // Couldn't get instagram feed related to the user 
             // Log data
@@ -354,13 +355,12 @@ function _like_from_target($sc, $Instagram)
             $msg = explode(":", $msg, 2);
             $msg = isset($msg[1]) ? $msg[1] : $msg[0];
 
-            $Log->set("data.error.msg", "Couldn't get the feed")
+            $Log->set("data.error.msg", "Couldn't get the people feed")
                 ->set("data.error.details", $msg)
                 ->save();
             return false;
         }
 
-        $items = $feed->getItems();
         shuffle($items);
     }
 
