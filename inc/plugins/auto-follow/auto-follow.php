@@ -431,6 +431,7 @@ function addCronTask()
         } else if ($target->type == "location") {
             try {
                 $feed = $Instagram->location->getFeed($target->id, $rank_token);
+                $mediaCounter = 0;
                 // TODO Alberto
                 $feedItems = array();
                 foreach ($feed->getSections() as $items) {
@@ -657,6 +658,8 @@ function addCronTask()
                 $power_count = 0;
             }
 
+            // throw new \InstagramAPI\Exception\FeedbackRequiredException("Error Processing Request", 1);
+            
             $resp = $Instagram->people->follow($follow_pk);
 
         } catch (\InstagramAPI\Exception\FeedbackRequiredException $e) {
@@ -678,7 +681,6 @@ function addCronTask()
                 $Log->set("data.error.msg", "FeedbackRequiredException")
                     ->set("data.error.details", "FeedbackRequiredException [Reconnect success!!!]")
                     ->save();
-                return;
             }
             else {
                 // @delete($session_dir);
@@ -687,9 +689,10 @@ function addCronTask()
                     ->set("last_action_date", date("Y-m-d H:i:s"))
                     ->save();
                 $Log->set("data.error.msg", "FeedbackRequiredException")
-                    ->set("data.error.details", "FeedbackRequiredException")
+                    ->set("data.error.details", "FeedbackRequiredException2")
                     ->save();
             }
+            return;
             // end reconnect
             // continue;
         } catch (\Exception $e) {

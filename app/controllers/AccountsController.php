@@ -118,6 +118,7 @@ class AccountsController extends Controller
         // Try login to Instagram
         try {
             $login_resp = \InstagramController::login($Account);
+            $this->resp->result = 1;
         } catch (\Exception $e) {
             $separated = $e->getMessage();
             $text = explode(" | ", $separated, 2);
@@ -130,9 +131,9 @@ class AccountsController extends Controller
                 $account_id = Input::post("id");
                 $this->resp->redirect = APPURL . "/accounts/" . $account_id;
             }
-            $this->jsonecho();
+
+            $this->resp->result = 0;
         }
-        $this->resp->result = 1;
 
         if ($Echo) {
             $this->jsonecho();

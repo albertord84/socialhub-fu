@@ -46,16 +46,6 @@ if ($proxy && isValidProxy($proxy)) {
 }
 
 try {
-    // Empty Cookie File
-    $session_dir = __DIR__ . "/../sessions/$username";
-    $cookiesFile = $session_dir . "/$username-cookies.dat";
-    if (file_exists($cookiesFile)) {
-        // @fclose(fopen($cookiesFile, 'w'));
-        $resp = file_put_contents($cookiesFile, "");
-    }
-
-    die("ok");
-
     $loginResponse = $ig->login($username, $password);
     echo "Logged in!\n\r";
 
