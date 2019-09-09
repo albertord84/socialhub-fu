@@ -658,7 +658,7 @@ function addCronTask()
                 $power_count = 0;
             }
 
-            throw new \InstagramAPI\Exception\FeedbackRequiredException("Error Processing Request", 1);
+            // throw new \InstagramAPI\Exception\FeedbackRequiredException("Error Processing Request", 1);
             
             $resp = $Instagram->people->follow($follow_pk);
 
