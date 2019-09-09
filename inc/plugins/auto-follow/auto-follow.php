@@ -682,14 +682,14 @@ function addCronTask()
             }
             else {
                 // @delete($session_dir);
+                $next_schedule = date("Y-m-d H:i:s", time() + 24 * 60 * 60);
+                $sc->set("schedule_date", $next_schedule)
+                    ->set("last_action_date", date("Y-m-d H:i:s"))
+                    ->save();
             }
             // end reconnect
             $Log->set("data.error.msg", "FeedbackRequiredException")
                 ->set("data.error.details", "FeedbackRequiredException")
-                ->save();
-            $next_schedule = date("Y-m-d H:i:s", time() + 24 * 60 * 60);
-            $sc->set("schedule_date", $next_schedule)
-                ->set("last_action_date", date("Y-m-d H:i:s"))
                 ->save();
             // continue;
         } catch (\Exception $e) {

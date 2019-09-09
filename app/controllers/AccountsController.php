@@ -89,7 +89,7 @@ class AccountsController extends Controller
 
     /**
      * Reconnect Instagram Account
-     * @return void
+     * @return jsonecho or $resp deppending on $Echo
      */
     public function reconnect($Echo = true)
     {
