@@ -10,8 +10,8 @@ require __DIR__ . '/../../../../vendor/autoload.php';
 /////// CONFIG ///////
 // $username = 'thiagobrunodias';
 // $password = 'luna2307';
-// $username = 'alberto_dreyes';
-// $password = 'albertord2';
+$username = 'alberto_dreyes';
+$password = 'albertord2';
 // $username = 'marcos.socialhub';
 // $password = 'Marcos*01+123';
 // $username = 'alberto_test';
@@ -19,15 +19,15 @@ require __DIR__ . '/../../../../vendor/autoload.php';
 // $username = 'socialhub.pro';
 // $password = 'Marcos*01+123000';
 
-$username = 'josergm86';
-$password = 'josergm2';
+// $username = 'josergm86';
+// $password = 'josergm2';
 
 // $username = 'draflavia.drniltoncamposjr';
 // $password = 'conexao1';
 
-// $proxy = "http://albertosocialhub:albertosocialhubproxy@br.smartproxy.com:16390";
+$proxy = "http://albertosocialhub:albertosocialhubproxy@br.smartproxy.com:16390";
 // $proxy = "https://EdHgVA:wbydcf@168.235.109.152:29548";
-$proxy = "https://mTNPvr:GZcaDW@168.235.93.240:24272";
+// $proxy = "https://mTNPvr:GZcaDW@168.235.93.240:24272";
 
 $debug = true;
 $truncatedDebug = false;
@@ -43,15 +43,26 @@ if ($proxy && isValidProxy($proxy)) {
 }
 
 try {
+    // Empty Cookie File
+    $session_dir = __DIR__ . "/../sessions/$username";
+    $cookiesFile = $session_dir . "/$username-cookies.dat";
+    if (file_exists($cookiesFile)) {
+        // @fclose(fopen($cookiesFile, 'w'));
+        $resp = file_put_contents($cookiesFile, "");
+    }
+
+    die("ok");
+
     $loginResponse = $ig->login($username, $password);
     echo "Logged in!\n\r";
-    
-    echo "Trying to follow: \n\r";
-    $resp = $ig->people->follow("5439579511");
-    ddd($resp);
+
+    // echo "Trying to follow: \n\r";
+    // $resp = $ig->people->follow("5439579511");
+    // ddd($resp);
 } catch (Exception $exception) {
 
     $response = $exception->getResponse();
+    // var_dump($response);
 
     if ($exception instanceof InstagramAPI\Exception\ChallengeRequiredException
         && $response->getErrorType() === 'checkpoint_challenge_required') {
@@ -59,7 +70,7 @@ try {
         sleep(3);
 
         $checkApiPath = substr($response->getChallenge()->getApiPath(), 1);
-        $arrayChallenge = split('/', $checkApiPath);
+        $arrayChallenge = explode('/', $checkApiPath);
         $ig->account_id = $ig->account_id ?? $arrayChallenge[1];
         $customResponse = $ig->request($checkApiPath)
             ->setNeedsAuth(false)
@@ -69,10 +80,13 @@ try {
             ->addPost('device_id', $ig->device_id)
             ->addPost('_uid', $ig->account_id)
             ->addPost('_csrftoken', $ig->client->getToken())
-            ->getDecodedResponse();
-        if (is_array($customResponse)) {
-            $user_id = isset($customResponse['user_id']) ?? $customResponse['user_id'];
-            $challenge_id = $customResponse['nonce_code'];
+            ->getDecodedResponse(false);
+        if (is_object($customResponse)) {
+            if ($customResponse->status == 'fail' && strpos('file is required', $customResponse->status) > 0) {
+                $customResponse->status == 'ok';
+            }
+            $user_id = is_object($customResponse->logged_in_user) ? $customResponse->logged_in_user->pk : 0;
+            $challenge_id = $customResponse->nonce_code;
         } else {
             echo "Weird response from challenge request...\n";
             var_dump($customResponse);
@@ -85,14 +99,15 @@ try {
 
     try {
 
-        if ($customResponse['status'] === 'ok' && isset($customResponse['action']) 
-            && $customResponse['action'] === 'close') {
+        if ($customResponse->status === 'ok' && isset($customResponse->action)
+            && $customResponse->action === 'close') {
             echo 'Checkpoint bypassed';
             exit();
         }
 
-        // $code = readln('Code that you received via ' . ($verification_method ? 'email' : 'sms') . ':');
-        $code = "490673";
+        /// TODO Alberto
+        $code = readln('Code that you received via ' . ($verification_method ? 'email' : 'sms') . ':');
+        // $code = "490673";
         $ig->changeUser($username, $password);
         $customResponse = $ig->request($checkApiPath)
             ->setNeedsAuth(false)
@@ -102,9 +117,10 @@ try {
             ->addPost('device_id', $ig->device_id)
             ->addPost('_uid', $ig->account_id)
             ->addPost('_csrftoken', $ig->client->getToken())
-            ->getDecodedResponse();
+            ->getDecodedResponse(false);
 
-        if ($customResponse['status'] === 'ok' && (int) $customResponse['logged_in_user']['pk'] === (int) $user_id) {
+        if ($customResponse->status === 'ok' && (int) $customResponse->logged_in_user->pk === (int) $user_id) {
+            // if ($customResponse->status === 'ok' && (int) $customResponse->logged_in_user['pk'] === (int) $user_id) {
             echo 'Finished, logged in successfully! Run this file again to validate that it works.';
         } else {
             echo "Probably finished...\n";

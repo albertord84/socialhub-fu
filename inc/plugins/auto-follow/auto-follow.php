@@ -662,15 +662,17 @@ function addCronTask()
         } catch (\InstagramAPI\Exception\FeedbackRequiredException $e) {
             // Remove previous session folder to make guarantee full relogin
             $session_dir = SESSIONS_PATH . "/" . $Account->get("user_id") . "/" . $Account->get("username");
-            if (file_exists($session_dir)) {
-                @delete($session_dir);
+            $cookiesFile = $session_dir . '/' . $Account->get("username") . '-cookies.dat';
+            if (file_exists($cookiesFile)) {
+                $resp = file_put_contents($cookiesFile, "");
+                // @delete($session_dir);
             }
             // Alberto: Try reconntect
             global $GLOBALS;
             $GLOBALS['_POST']['id'] = $Account->get("id");
             $AccountsController = new \AccountsController();
             $AccountsController->setVariable("AuthUser", $User);
-            $reconect = $AccountsController->reconnect();
+            $reconect = $AccountsController->reconnect(true);
             if ($reconect->resp->result == 1) {
                 // $Log->set("status", "Reconnect success!!! [Alberto]")->save();
                 $Log->set("data.error.msg", "FeedbackRequiredException")
@@ -678,12 +680,8 @@ function addCronTask()
                     ->save();
                 return;
             }
-            if ($reconect->resp->result == 1) {
-                // $Log->set("status", "Reconnect success!!! [Alberto]")->save();
-                $Log->set("data.error.msg", "FeedbackRequiredException")
-                    ->set("data.error.details", "FeedbackRequiredException [Reconnect success!!!]")
-                    ->save();
-                return;
+            else {
+                // @delete($session_dir);
             }
             // end reconnect
             $Log->set("data.error.msg", "FeedbackRequiredException")
