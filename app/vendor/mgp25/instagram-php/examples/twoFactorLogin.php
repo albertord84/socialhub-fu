@@ -25,8 +25,9 @@ $password = 'albertord2';
 // $username = 'draflavia.drniltoncamposjr';
 // $password = 'conexao1';
 
-$proxy = "http://albertosocialhub:albertosocialhubproxy@br.smartproxy.com:16390";
-// $proxy = "https://EdHgVA:wbydcf@168.235.109.152:29548";
+
+//$proxy = "http://albertosocialhub:albertosocialhubproxy@br.smartproxy.com:16390";
+$proxy = "https://EdHgVA:wbydcf@168.235.109.152:29548";
 // $proxy = "https://mTNPvr:GZcaDW@168.235.93.240:24272";
 
 $debug = true;
@@ -36,8 +37,10 @@ $verification_method = 0; //0 = SMS, 1 = Email
 
 //////////////////////
 
-$ig = new \InstagramAPI\ExtendedInstagram($debug, $truncatedDebug);
+#exit("ok");
 
+$ig = new \InstagramAPI\ExtendedInstagram($debug, $truncatedDebug);
+exit("ok");
 if ($proxy && isValidProxy($proxy)) {
     $ig->setProxy($proxy);
 }
