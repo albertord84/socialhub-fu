@@ -686,11 +686,11 @@ function addCronTask()
                 $sc->set("schedule_date", $next_schedule)
                     ->set("last_action_date", date("Y-m-d H:i:s"))
                     ->save();
+                $Log->set("data.error.msg", "FeedbackRequiredException")
+                    ->set("data.error.details", "FeedbackRequiredException")
+                    ->save();
             }
             // end reconnect
-            $Log->set("data.error.msg", "FeedbackRequiredException")
-                ->set("data.error.details", "FeedbackRequiredException")
-                ->save();
             // continue;
         } catch (\Exception $e) {
             $Log->set("data.error.msg", "Couldn't follow the user")
@@ -707,15 +707,6 @@ function addCronTask()
             $Log->set("data.error.msg", "Couldn't follow the user")
                 ->set("data.error.details", "Something went wrong")
                 ->save();
-
-            // Alberto: Try reconntect
-            $reconect = (new \AccountsController())->reconnect($Account);
-            if ($reconect->resp->result == 1) {
-                $Log->set("status", "Reconnect success!!! [Alberto]")->save();
-            }
-            return;
-
-            // continue;
         }
 
         $Log->set("status", "success")
