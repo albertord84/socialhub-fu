@@ -672,7 +672,7 @@ function addCronTask()
             $GLOBALS['_POST']['id'] = $Account->get("id");
             $AccountsController = new \AccountsController();
             $AccountsController->setVariable("AuthUser", $User);
-            $reconect = $AccountsController->reconnect(true);
+            $reconect = $AccountsController->reconnect(false);
             if ($reconect->resp->result == 1) {
                 // $Log->set("status", "Reconnect success!!! [Alberto]")->save();
                 $Log->set("data.error.msg", "FeedbackRequiredException")
