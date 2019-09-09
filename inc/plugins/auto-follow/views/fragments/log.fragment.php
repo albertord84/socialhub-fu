@@ -174,7 +174,10 @@
                                                 </div>
                                             <?php endif ?>
                                             <?php if ($l->get("data.error.details")): ?>
-                                                <div class="error-details"><!-- <?= __($l->get("data.error.details")) ?> --></div>
+                                                <!-- Alberto uncomment: -->
+                                                <div class="error-details">
+                                                    <?= __($l->get("data.error.details")) ?>
+                                                </div>
                                             <?php endif ?>
                                         <?php endif ?>
                                     </div>
