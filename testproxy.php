@@ -13,10 +13,11 @@ $proxy = "https://mTNPvr:GZcaDW@168.235.93.240:24272";;
 
 try {
     if ($proxy && isValidProxy($proxy)) {
-        echo "Conexao feita com proxy HTTPS! :)";
+        die("Conexao feita com proxy HTTPS! :)");
     }
+    die("Erro conectando atravez do proxy atravez do PHP com HTTPS! :(");
 } catch (Exception $exception) {
-    echo "Erro conectando atravez do proxy atravez do PHP com HTTPS! :(";    
+    die("Erro conectando atravez do proxy atravez do PHP com HTTPS! :(");
 }
 
 /**
