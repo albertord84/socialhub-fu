@@ -1516,8 +1516,8 @@ nav {
 
 .nav-logo-wrapper a {
   display: block;
-  height: 30px;
-  width: 30px;
+  height: 45px;
+  width: 45px;
   margin: 0 auto; }
 
 .nav-logo-wrapper img {
@@ -1530,7 +1530,7 @@ nav {
   margin: auto;
   max-height: 100%;
   max-width: 100%; 
-  filter: contrast(0%) brightness(1000%);
+  /*filter: contrast(0%) brightness(1000%);*/
 }
 
 .nav-menu {

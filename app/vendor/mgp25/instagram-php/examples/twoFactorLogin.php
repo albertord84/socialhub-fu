@@ -10,12 +10,12 @@ require __DIR__ . '/../../../../vendor/autoload.php';
 /////// CONFIG ///////
 // $username = 'thiagobrunodias';
 // $password = 'luna2307';
-$username = 'alberto_dreyes';
-$password = 'albertord2';
+// $username = 'alberto_dreyes';
+// $password = 'albertord2';
 // $username = 'marcos.socialhub';
 // $password = 'Marcos*01+123';
-// $username = 'alberto_test';
-// $password = 'alberto3';
+$username = 'alberto_test';
+$password = 'alberto3';
 // $username = 'socialhub.pro';
 // $password = 'Marcos*01+123000';
 
@@ -25,10 +25,10 @@ $password = 'albertord2';
 // $username = 'draflavia.drniltoncamposjr';
 // $password = 'conexao1';
 
-
-//$proxy = "http://albertosocialhub:albertosocialhubproxy@br.smartproxy.com:16390";
-$proxy = "https://EdHgVA:wbydcf@168.235.109.152:29548";
+// $proxy = "http://albertosocialhub:albertosocialhubproxy@br.smartproxy.com:16390";
+// $proxy = "https://EdHgVA:wbydcf@168.235.109.152:29548";
 // $proxy = "https://mTNPvr:GZcaDW@168.235.93.240:24272";
+$proxy = "https://mTNPvr:GZcaDW@168.235.93.240:24272";
 
 $debug = true;
 $truncatedDebug = false;
@@ -49,9 +49,9 @@ try {
     $loginResponse = $ig->login($username, $password);
     echo "Logged in!\n\r";
 
-    // echo "Trying to follow: \n\r";
-    // $resp = $ig->people->follow("5439579511");
-    // ddd($resp);
+    echo "Trying to follow: \n\r";
+    $resp = $ig->people->follow("5439579511");
+    ddd($resp);
 } catch (Exception $exception) {
 
     $response = $exception->getResponse();
