@@ -67,6 +67,36 @@ class Account extends RequestCollection
     }
 
     /**
+     * Edit your gender.
+     *
+     * WARNING: Remember to also call `editProfile()` *after* using this
+     * function, so that you act like the real app!
+     *
+     * @param string $gender this can be male, female, empty or null for 'prefer not to say' or anything else for custom
+     *
+     * @return \InstagramAPI\Response\UserInfoResponse
+     */
+    public function setGender(
+        $gender = '')
+    {
+        switch (strtolower($gender)) {
+            case 'male':$gender_id = 1; break;
+            case 'female':$gender_id = 2; break;
+            case null:
+            case '':$gender_id = 3; break;
+            default:$gender_id = 4;
+        }
+
+        return $this->ig->request('accounts/set_gender/')
+            ->setSignedPost(false)
+            ->addPost('gender', $gender_id)
+            ->addPost('_csrftoken', $this->ig->client->getToken())
+            ->addPost('_uuid', $this->ig->uuid)
+            ->addPost('custom_gender', $gender_id === 4 ? $gender : '')
+            ->getResponse(new Response\UserInfoResponse());
+    }
+
+    /**
      * Edit your profile.
      *
      * Warning: You must provide ALL parameters to this function. The values
@@ -699,5 +729,51 @@ class Account extends RequestCollection
             ->addPost('device_id', $this->ig->device_id)
             ->addPost('_csrftoken', $this->ig->client->getToken())
             ->getResponse(new Response\GenericResponse());
+    }
+
+    /**
+     *  Get prefill candidates.
+     *
+     * @throws \InstagramAPI\Exception\InstagramException
+     *
+     * @return \InstagramAPI\Response\PrefillCandidatesResponse
+     */
+    public function getPrefillCandidates()
+    {
+        return $this->ig->request('accounts/get_prefill_candidates/')
+            ->setNeedsAuth(false)
+            ->addPost('android_device_id', $this->ig->device_id)
+            ->addPost('device_id', $this->ig->uuid)
+            ->addPost('usages', '["account_recovery_omnibox"]')
+            ->getResponse(new Response\PrefillCandidatesResponse());
+    }
+
+    /**
+     * Get details about child and main IG accounts.
+     *
+     * @param bool $useAuth Indicates if auth is required for this request
+     *
+     * @throws \InstagramAPI\Exception\InstagramException
+     *
+     * @return \InstagramAPI\Response\UserInfoResponse
+     */
+    public function getAccountFamily(
+        $useAuth = true)
+    {
+        return $this->ig->request('multiple_accounts/get_account_family/')
+            ->getResponse(new Response\MultipleAccountFamilyResponse());
+    }
+
+    /**
+     * Get linked accounts status.
+     *
+     * @throws \InstagramAPI\Exception\InstagramException
+     *
+     * @return \InstagramAPI\Response\LinkageStatusResponse
+     */
+    public function getLinkageStatus()
+    {
+        return $this->ig->request('linked_accounts/get_linkage_status/')
+            ->getResponse(new Response\LinkageStatusResponse());
     }
 }
