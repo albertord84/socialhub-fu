@@ -71,7 +71,3 @@ RewriteCond %{HTTP_HOST} ^www\.fu\.socialhub\.pro$
 RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
 RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
 RewriteRule ^/?$ "https\:\/\/fu\.socialhub\.pro\/post" [R=301,L]
-
-# php -- BEGIN cPanel-generated handler, do not edit
-# Este domínio herda o pacote “PHP”.
-# php -- END cPanel-generated handler, do not edit

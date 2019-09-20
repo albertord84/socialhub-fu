@@ -36,8 +36,10 @@ function isValidProxy($proxy)
         $res = $client->request('GET', 'https://www.instagram.com',
             [
                 "verify" => false,
-                "timeout" => 10,
+                "timeout" => 60,
                 "proxy" => $proxy,
+                "debug" => true,
+                "CURLOPT_SSLVERSION" => 'CURL_SSLVERSION_TLSv1_2',
             ]);
         $code = $res->getStatusCode();
     } catch (\Exception $e) {
