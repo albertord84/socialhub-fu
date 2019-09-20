@@ -1178,17 +1178,17 @@
     },
     {
         "name": "mgp25/instagram-php",
-        "version": "v6.1.0",
-        "version_normalized": "6.1.0.0",
+        "version": "v7.0.1",
+        "version_normalized": "7.0.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mgp25/Instagram-API.git",
-            "reference": "babad4f4f9a49d85b97cbdadbd587a072ab22c2f"
+            "reference": "53421f90b9ef7743f1c6221c4963f2b9f7a592e8"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mgp25/Instagram-API/zipball/babad4f4f9a49d85b97cbdadbd587a072ab22c2f",
-            "reference": "babad4f4f9a49d85b97cbdadbd587a072ab22c2f",
+            "url": "https://api.github.com/repos/mgp25/Instagram-API/zipball/53421f90b9ef7743f1c6221c4963f2b9f7a592e8",
+            "reference": "53421f90b9ef7743f1c6221c4963f2b9f7a592e8",
             "shasum": ""
         },
         "require": {
@@ -1221,7 +1221,7 @@
         "suggest": {
             "ext-event": "Installing PHP's native Event extension enables faster Realtime class event handling."
         },
-        "time": "2019-06-22T16:30:54+00:00",
+        "time": "2019-09-17T00:56:42+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
@@ -1237,13 +1237,13 @@
         "authors": [
             {
                 "name": "mgp25",
-                "role": "Founder",
-                "email": "me@mgp25.com"
+                "email": "me@mgp25.com",
+                "role": "Founder"
             },
             {
                 "name": "SteveJobzniak",
-                "role": "Developer",
-                "homepage": "https://github.com/SteveJobzniak"
+                "homepage": "https://github.com/SteveJobzniak",
+                "role": "Developer"
             }
         ],
         "description": "Instagram's private API for PHP",
