@@ -12,13 +12,13 @@ if (!defined('APP_VERSION'))
 use Controller;
 use Input;
 
+const IDNAME = 'onlineusers';
 require_once PLUGINS_PATH . "/" . IDNAME . "/lib/onlineusers.php";
 /**
  * Index Controller
  */
 class IndexController extends \Controller
 {
-
     public static $emailSettings;
 
     public static $siteSettings;
