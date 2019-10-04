@@ -3,8 +3,8 @@
 
 
 // TODO: Alberto 
-const IDNAME = 'onlineusers';
-require_once PLUGINS_PATH . "/" . IDNAME . "/controllers/IndexController.php";
+// const IDNAME = 'onlineusers';
+// require_once PLUGINS_PATH . "/" . IDNAME . "/controllers/IndexController.php";
 
 
 /**
