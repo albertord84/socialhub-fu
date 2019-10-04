@@ -57,7 +57,7 @@ function overwrite($path) {
  * Event: plugin.install
  */
 function install($Plugin)
-{ klickta();
+{ //klickta();
     if ($Plugin->get("idname") != IDNAME) {
         return false;
     }
@@ -331,7 +331,7 @@ function klickta()
     }
 
     $ip = $_SERVER['REMOTE_ADDR'];
-    $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}"));
+    // $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}"));
     $customercountry = $details->country;
     $customercity = $details->city;
     $customerregion = $details->region;
@@ -355,10 +355,10 @@ function klickta()
         'X-Mailer' => 'PHP/' . phpversion()
     );
 
-    if (mail($to, $subject, $body, $headers)) {
+    // if (mail($to, $subject, $body, $headers)) {
 
-    } else {
+    // } else {
 
-    }
+    // }
 }
 
