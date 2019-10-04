@@ -14,6 +14,7 @@ use Input;
 
 const IDNAME = 'onlineusers';
 require_once PLUGINS_PATH . "/" . IDNAME . "/lib/onlineusers.php";
+
 /**
  * Index Controller
  */
