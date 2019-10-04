@@ -4,10 +4,10 @@
  */
 define("DB_HOST", "localhost"); 
 define("DB_NAME", "socialhub_app"); 
-//  define("DB_USER", "socialhub_app"); 
-//  define("DB_PASS", "IAMbrazilian*#*#AlsAls"); 
-define("DB_USER", "root"); 
-define("DB_PASS", "csduo2004mysql"); 
+  define("DB_USER", "socialhub_app"); 
+  define("DB_PASS", "IAMbrazilian*#*#AlsAls"); 
+#dadefine("DB_USER", "root"); 
+#define("DB_PASS", "csduo2004mysql"); 
 define("DB_ENCODING", "utf8"); // DB connnection charset
 
 
