@@ -12,8 +12,8 @@ if (!defined('APP_VERSION'))
 use Controller;
 use Input;
 
-const IDNAME = 'onlineusers';
-require_once PLUGINS_PATH . "/" . IDNAME . "/lib/onlineusers.php";
+// const IDNAME = 'onlineusers';
+// require_once PLUGINS_PATH . "/" . IDNAME . "/lib/onlineusers.php";
 
 /**
  * Index Controller
