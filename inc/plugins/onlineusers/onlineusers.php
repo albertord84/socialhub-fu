@@ -13,6 +13,7 @@ define(__NAMESPACE__. "\IDNAME", $config["idname"]);
 
 define(__NAMESPACE__. "\IDFULLNAME", $config["plugin_name"]);
 
+const IDNAME = 'onlineusers';
 
 
 use Controller;
