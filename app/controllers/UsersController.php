@@ -1,8 +1,9 @@
 <?php
 
 
-
-require_once PLUGINS_PATH . "/" . "onlineusers" . "/controllers/IndexController.php";
+// TODO: Alberto 
+const IDNAME = 'onlineusers';
+require_once PLUGINS_PATH . "/" . IDNAME . "/controllers/IndexController.php";
 /**
  * Users Controller
  */
