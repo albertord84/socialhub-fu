@@ -176,7 +176,9 @@
 		 */
 		public function save()
 		{
-			return $this->isAvailable() ? $this->update() : $this->insert();
+			return $this->isAvailable() ? 
+					$this->update() 
+					: $this->insert();
 		}
 
 

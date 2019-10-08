@@ -355,6 +355,11 @@ function addCronTask()
         $follow_full_name = null;
         $follow_profile_pic_url = null;
 
+        $follow_pks = array();
+        $follow_usernames = array();
+        $follow_full_names = array();
+        $follow_profile_pic_urls = array();
+
         $turns = 1;
         $turns_max = 10;
 
@@ -373,7 +378,9 @@ function addCronTask()
                 continue;
             }
 
-            if (count($feed->getItems()) < 1) {
+            // Alberto Test
+            // if (count($feed->getItems()) < 1) {
+            if (count($feed->getItems()) < 3) {
                 continue;
             }
 
@@ -422,7 +429,15 @@ function addCronTask()
                         $follow_full_name = $item->getUser()->getFullName();
                         $follow_profile_pic_url = $item->getUser()->getProfilePicUrl();
                         $follow_is_private = (bool) $item->getUser()->getIsPrivate();
-                        break;
+
+                        $follow_pks[] = $item->getPk();
+                        $follow_usernames[] = $item->getUsername();
+                        $follow_full_names[] = $item->getFullName();
+                        $follow_profile_pic_urls[] = $item->getProfilePicUrl();
+                        $follow_is_privates[] = (bool) $item->getIsPrivate();
+
+                        if (count($follow_pks) >= 3)
+                            break;
                     } else {
                         // already followed
                     }
@@ -448,7 +463,9 @@ function addCronTask()
                 continue;
             }
 
-            if (count($feedItems) < 1) {
+            // Alberto Test
+            // if (count($feedItems) < 1) {
+            if (count($feedItems) < 3) {
                 continue;
             }
 
@@ -493,7 +510,15 @@ function addCronTask()
                         $follow_full_name = $item->getUser()->getFullName();
                         $follow_profile_pic_url = $item->getUser()->getProfilePicUrl();
                         $follow_is_private = (bool) $item->getUser()->getIsPrivate();
-                        break;
+
+                        $follow_pks[] = $item->getPk();
+                        $follow_usernames[] = $item->getUsername();
+                        $follow_full_names[] = $item->getFullName();
+                        $follow_profile_pic_urls[] = $item->getProfilePicUrl();
+                        $follow_is_privates[] = (bool) $item->getIsPrivate();
+
+                        if (count($follow_pks) >= 3)
+                            break;
                     }
                 }
             }
@@ -519,7 +544,9 @@ function addCronTask()
                     continue 2;
                 }
 
-                if (count($feed->getUsers()) < 1) {
+                // Alberto Test
+                // if (count($feed->getUsers()) < 1) {
+                if (count($feed->getUsers()) < 3) {
 
                     $loop = false;
                     continue 2;
@@ -566,7 +593,14 @@ function addCronTask()
                             $follow_profile_pic_url = $userItem->getProfilePicUrl();
                             $follow_is_private = (bool) $userItem->getIsPrivate();
 
-                            break 2;
+                            $follow_pks[] = $userItem->getPk();
+                            $follow_usernames[] = $userItem->getUsername();
+                            $follow_full_names[] = $userItem->getFullName();
+                            $follow_profile_pic_urls[] = $userItem->getProfilePicUrl();
+                            $follow_is_privates[] = (bool) $userItem->getIsPrivate();
+
+                            if (count($follow_pks) >= 3)
+                                break 2;
                         }
                     }
                 }
@@ -585,6 +619,7 @@ function addCronTask()
             continue;
         }
 
+        $follows = 0;
         try {
 
             $power_count = $sc->get("data.powerlike_count");
@@ -653,14 +688,24 @@ function addCronTask()
                 } catch (\Exception $e) {
                     // no feed
                 }
-
+                
             } else {
                 $power_count = 0;
             }
-
+            
             // throw new \InstagramAPI\Exception\FeedbackRequiredException("Error Processing Request", 1);
             
-            $resp = $Instagram->people->follow($follow_pk);
+            $resps = array();
+            $follows = rand(1, 3);
+            if (count($follow_pks) >= 3 && $follows > 1) {
+                for ($i=0; $i < $follows; $i++) { 
+                    $resp = $Instagram->people->follow($follow_pks[$i]);
+                    $resps[] = $resp;
+                }
+            }
+            else {
+                $resp = $Instagram->people->follow($follow_pk);
+            }
 
         } catch (\InstagramAPI\Exception\FeedbackRequiredException $e) {
             // Remove previous session folder to make guarantee full relogin
@@ -680,6 +725,10 @@ function addCronTask()
                 // $Log->set("status", "Reconnect success!!! [Alberto]")->save();
                 $Log->set("data.error.msg", "FeedbackRequiredException")
                     ->set("data.error.details", "FeedbackRequiredException [Reconnect success!!!]")
+                    ->save();
+                $next_schedule = date("Y-m-d H:i:s", time() + 1 * 60 * 60);
+                $sc->set("schedule_date", $next_schedule)
+                    ->set("last_action_date", date("Y-m-d H:i:s"))
                     ->save();
             }
             else {
@@ -712,19 +761,33 @@ function addCronTask()
                 ->save();
         }
 
-        $Log->set("status", "success")
-            ->set("data.followed", [
-                "pk" => $follow_pk,
-                "username" => $follow_username,
-                "full_name" => $follow_full_name,
-                "profile_pic_url" => $follow_profile_pic_url,
-            ])
-            ->set("data.powerlike", [
-                "count" => count($likedmedia),
-                "posts" => $likedmedia,
-            ])
-            ->set("followed_user_pk", $follow_pk)
-            ->save();
+        if (count($follow_pks) >= 3 && $follows > 1) {
+            for ($i=0; $i < $follows; $i++) { 
+                $Log->set("status", "success")
+                    ->set("data.followed", [
+                        "pk" => $follow_pks[$i],
+                        "username" => $follow_usernames[$i],
+                        "full_name" => $follow_full_names[$i],
+                        "profile_pic_url" => $follow_profile_pic_urls[$i],
+                    ])
+                    ->set("followed_user_pk", $follow_pks[$i])
+                    ->insert();
+            }
+        } else {
+            $Log->set("status", "success")
+                ->set("data.followed", [
+                    "pk" => $follow_pk,
+                    "username" => $follow_username,
+                    "full_name" => $follow_full_name,
+                    "profile_pic_url" => $follow_profile_pic_url,
+                ])
+                ->set("data.powerlike", [
+                    "count" => count($likedmedia),
+                    "posts" => $likedmedia,
+                ])
+                ->set("followed_user_pk", $follow_pk)
+                ->save();
+        }
     }
 }
 \Event::bind("cron.add", __NAMESPACE__ . "\addCronTask");

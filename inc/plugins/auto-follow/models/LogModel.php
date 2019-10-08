@@ -101,8 +101,9 @@ class LogModel extends \DataEntry
      */
     public function insert()
     {
-    	if ($this->isAvailable())
-    		return false;
+		// Alberto Test
+    	// if ($this->isAvailable())
+    	// 	return false;
 
     	$this->extendDefaults();
 
