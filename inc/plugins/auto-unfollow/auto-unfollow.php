@@ -487,14 +487,42 @@ function addCronTask()
         try {
             $resp = $Instagram->people->unfollow($unfollow_pk);
         } catch (\InstagramAPI\Exception\FeedbackRequiredException $e) {
-            $Log->set("data.error.msg", "FeedbackRequiredException")
-                ->set("data.error.details", "FeedbackRequiredException")
-                ->save();
-            $next_schedule = date("Y-m-d H:i:s", time() + 24 * 60 * 60);
-            $sc->set("schedule_date", $next_schedule)
-                ->set("last_action_date", date("Y-m-d H:i:s"))
-                ->save();
-            continue;
+            // Remove previous session folder to make guarantee full relogin
+            $session_dir = SESSIONS_PATH . "/" . $Account->get("user_id") . "/" . $Account->get("username");
+            $cookiesFile = $session_dir . '/' . $Account->get("username") . '-cookies.dat';
+            if (file_exists($cookiesFile)) {
+                $resp = file_put_contents($cookiesFile, "");
+                // @delete($session_dir);
+            }
+            // Alberto: Try reconntect
+            global $GLOBALS;
+            $GLOBALS['_POST']['id'] = $Account->get("id");
+            $AccountsController = new \AccountsController();
+            $AccountsController->setVariable("AuthUser", $User);
+            $reconect = $AccountsController->reconnect(false);
+            if ($reconect->result == 1) {
+                // $Log->set("status", "Reconnect success!!! [Alberto]")->save();
+                $Log->set("data.error.msg", "FeedbackRequiredException")
+                    ->set("data.error.details", "FeedbackRequiredException [Reconnect success!!!]")
+                    ->save();
+                $next_schedule = date("Y-m-d H:i:s", time() + 2 * 60 * 60);
+                $sc->set("schedule_date", $next_schedule)
+                    ->set("last_action_date", date("Y-m-d H:i:s"))
+                    ->save();
+            }
+            else {
+                // @delete($session_dir);
+                $next_schedule = date("Y-m-d H:i:s", time() + 24 * 60 * 60);
+                $sc->set("schedule_date", $next_schedule)
+                    ->set("last_action_date", date("Y-m-d H:i:s"))
+                    ->save();
+                $Log->set("data.error.msg", "FeedbackRequiredException")
+                    ->set("data.error.details", "FeedbackRequiredException2")
+                    ->save();
+            }
+            return;
+            // end reconnect
+            // continue;
         } catch (\Exception $e) {
             $msg = $e->getMessage();
             $msg = explode(":", $msg, 2);

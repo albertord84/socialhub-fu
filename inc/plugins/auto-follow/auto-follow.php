@@ -630,7 +630,6 @@ function addCronTask()
             if ($power_count > 3) {
                 $power_count = 3; //max value
             }
-            ;
 
             if ($power_like && !$follow_is_private) {
 
@@ -726,7 +725,7 @@ function addCronTask()
                 $Log->set("data.error.msg", "FeedbackRequiredException")
                     ->set("data.error.details", "FeedbackRequiredException [Reconnect success!!!]")
                     ->save();
-                $next_schedule = date("Y-m-d H:i:s", time() + 1 * 60 * 60);
+                $next_schedule = date("Y-m-d H:i:s", time() + 2 * 60 * 60);
                 $sc->set("schedule_date", $next_schedule)
                     ->set("last_action_date", date("Y-m-d H:i:s"))
                     ->save();
