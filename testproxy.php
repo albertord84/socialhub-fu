@@ -9,7 +9,7 @@ require __DIR__ . '/app/vendor/autoload.php';
 
 //////////////////////
 
-$proxy = "https://mTNPvr:GZcaDW@168.235.93.240:24272";;
+$proxy = "https://Socialhub.pro:C_LAjPwZxzD-an@185.128.148.49:30508";
 
 try {
     if ($proxy && isValidProxy($proxy)) {
@@ -31,12 +31,27 @@ function isValidProxy($proxy)
         return false;
     }
 
+    // http://Socialhub.pro:C_LAjPwZxzD-an@185.128.148.49:30508
+    // $ch = curl_init(); 
+    // curl_setopt($ch, CURLOPT_URL, "https://www.instagram.com/"); 
+    // curl_setopt($ch, CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
+    // curl_setopt($ch, CURLOPT_PROXY, '185.128.148.49');
+    // curl_setopt($ch, CURLOPT_PROXYPORT, 30508);
+    // curl_setopt($ch, CURLOPT_PROXYUSERPWD, 'Socialhub.pro:C_LAjPwZxzD-an');
+    // curl_setopt($ch, CURLOPT_HEADER, false);
+    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    // curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+    // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    // var_dump(curl_exec($ch)); 
+    // var_dump(curl_error($ch));
+    // exit();
+
     try {
         $client = new \GuzzleHttp\Client();
         $res = $client->request('GET', 'https://www.instagram.com',
             [
                 "verify" => false,
-                "timeout" => 60,
+                "timeout" => 10,
                 "proxy" => $proxy,
                 "debug" => true,
                 "CURLOPT_SSLVERSION" => 'CURL_SSLVERSION_TLSv1_2',
