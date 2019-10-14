@@ -127,7 +127,7 @@ class InstagramController extends Controller
             throw new Exception($separated);
         } catch (InstagramAPI\Exception\InstagramException $e) {
             // Couldn't login to Instagram account
-            $Account->set("login_required", 1)->update(); 
+            // $Account->set("login_required", 1)->update(); 
             $text[0] = __("Instagram Response"); 
             $msg = $e->getMessage();
             $msg = explode(":", $msg, 2);

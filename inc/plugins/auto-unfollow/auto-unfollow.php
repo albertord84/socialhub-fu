@@ -502,22 +502,32 @@ function addCronTask()
             $reconect = $AccountsController->reconnect(false);
             if ($reconect->result == 1) {
                 // $Log->set("status", "Reconnect success!!! [Alberto]")->save();
+                $error_count = $sc->get("data.error_count");
+                $error_count++;
+                $sc->set("data.error_count", $error_count);
                 $Log->set("data.error.msg", "FeedbackRequiredException")
-                    ->set("data.error.details", "FeedbackRequiredException [Reconnect success!!!]")
+                    ->set("data.error.details", "FeedbackRequiredException [Reconnect success!] " . $error_count . "/3")
                     ->save();
-                $next_schedule = date("Y-m-d H:i:s", time() + 2 * 60 * 60);
+                $next_schedule = date("Y-m-d H:i:s", time() + 2 * $error_count * 60 * 60);
                 $sc->set("schedule_date", $next_schedule)
                     ->set("last_action_date", date("Y-m-d H:i:s"))
                     ->save();
+                if ($error_count >= 3) {
+                    @delete($session_dir);
+                    $sc->set("is_active", 0)->save();
+                    $sc->set("data.error_count", 0);
+                }
             }
             else {
                 @delete($session_dir);
+                $sc->set("is_active", 0)->save();
+                $sc->set("data.error_count", 0);
                 $next_schedule = date("Y-m-d H:i:s", time() + 24 * 60 * 60);
                 $sc->set("schedule_date", $next_schedule)
                     ->set("last_action_date", date("Y-m-d H:i:s"))
                     ->save();
                 $Log->set("data.error.msg", "FeedbackRequiredException")
-                    ->set("data.error.details", "FeedbackRequiredException2")
+                    ->set("data.error.details", "FeedbackRequiredException [Deleted session dir!]")
                     ->save();
             }
             return;

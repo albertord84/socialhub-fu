@@ -430,14 +430,16 @@ function addCronTask()
                         $follow_profile_pic_url = $item->getUser()->getProfilePicUrl();
                         $follow_is_private = (bool) $item->getUser()->getIsPrivate();
 
-                        $follow_pks[] = $item->getPk();
-                        $follow_usernames[] = $item->getUsername();
-                        $follow_full_names[] = $item->getFullName();
-                        $follow_profile_pic_urls[] = $item->getProfilePicUrl();
-                        $follow_is_privates[] = (bool) $item->getIsPrivate();
+                        $follow_pks[] = $follow_pk;
+                        $follow_usernames[] = $follow_username;
+                        $follow_full_names[] = $follow_full_name;
+                        $follow_profile_pic_urls[] = $follow_profile_pic_url;
+                        $follow_is_privates[] = $follow_is_private;
 
-                        if (count($follow_pks) >= 3)
+                        if (count($follow_pks) >= 3) {
                             break;
+                        }
+
                     } else {
                         // already followed
                     }
@@ -511,14 +513,16 @@ function addCronTask()
                         $follow_profile_pic_url = $item->getUser()->getProfilePicUrl();
                         $follow_is_private = (bool) $item->getUser()->getIsPrivate();
 
-                        $follow_pks[] = $item->getPk();
-                        $follow_usernames[] = $item->getUsername();
-                        $follow_full_names[] = $item->getFullName();
-                        $follow_profile_pic_urls[] = $item->getProfilePicUrl();
-                        $follow_is_privates[] = (bool) $item->getIsPrivate();
+                        $follow_pks[] = $follow_pk;
+                        $follow_usernames[] = $follow_username;
+                        $follow_full_names[] = $follow_full_name;
+                        $follow_profile_pic_urls[] = $follow_profile_pic_url;
+                        $follow_is_privates[] = $follow_is_private;
 
-                        if (count($follow_pks) >= 3)
+                        if (count($follow_pks) >= 3) {
                             break;
+                        }
+
                     }
                 }
             }
@@ -593,14 +597,16 @@ function addCronTask()
                             $follow_profile_pic_url = $userItem->getProfilePicUrl();
                             $follow_is_private = (bool) $userItem->getIsPrivate();
 
-                            $follow_pks[] = $userItem->getPk();
-                            $follow_usernames[] = $userItem->getUsername();
-                            $follow_full_names[] = $userItem->getFullName();
-                            $follow_profile_pic_urls[] = $userItem->getProfilePicUrl();
-                            $follow_is_privates[] = (bool) $userItem->getIsPrivate();
+                            $follow_pks[] = $follow_pk;
+                            $follow_usernames[] = $follow_username;
+                            $follow_full_names[] = $follow_full_name;
+                            $follow_profile_pic_urls[] = $follow_profile_pic_url;
+                            $follow_is_privates[] = $follow_is_private;
 
-                            if (count($follow_pks) >= 3)
+                            if (count($follow_pks) >= 3) {
                                 break 2;
+                            }
+
                         }
                     }
                 }
@@ -687,22 +693,21 @@ function addCronTask()
                 } catch (\Exception $e) {
                     // no feed
                 }
-                
+
             } else {
                 $power_count = 0;
             }
-            
+
             // throw new \InstagramAPI\Exception\FeedbackRequiredException("Error Processing Request", 1);
-            
+
             $resps = array();
             $follows = rand(1, 3);
             if (count($follow_pks) >= 3 && $follows > 1) {
-                for ($i=0; $i < $follows; $i++) { 
+                for ($i = 0; $i < $follows; $i++) {
                     $resp = $Instagram->people->follow($follow_pks[$i]);
                     $resps[] = $resp;
                 }
-            }
-            else {
+            } else {
                 $resp = $Instagram->people->follow($follow_pk);
             }
 
@@ -722,22 +727,31 @@ function addCronTask()
             $reconect = $AccountsController->reconnect(false);
             if ($reconect->result == 1) {
                 // $Log->set("status", "Reconnect success!!! [Alberto]")->save();
+                $error_count = $sc->get("data.error_count");
+                $error_count++;
+                $sc->set("data.error_count", $error_count);
                 $Log->set("data.error.msg", "FeedbackRequiredException")
-                    ->set("data.error.details", "FeedbackRequiredException [Reconnect success!!!]")
+                    ->set("data.error.details", "FeedbackRequiredException [Reconnect success!] " . $error_count . "/3")
                     ->save();
-                $next_schedule = date("Y-m-d H:i:s", time() + 2 * 60 * 60);
+                $next_schedule = date("Y-m-d H:i:s", time() + 2 * $error_count * 60 * 60);
                 $sc->set("schedule_date", $next_schedule)
                     ->set("last_action_date", date("Y-m-d H:i:s"))
                     ->save();
-            }
-            else {
+                if ($error_count >= 3) {
+                    @delete($session_dir);
+                    $sc->set("is_active", 0)->save();
+                    $sc->set("data.error_count", 0);
+                }
+            } else {
                 @delete($session_dir);
+                $sc->set("is_active", 0)->save();
+                $sc->set("data.error_count", 0);
                 $next_schedule = date("Y-m-d H:i:s", time() + 24 * 60 * 60);
                 $sc->set("schedule_date", $next_schedule)
                     ->set("last_action_date", date("Y-m-d H:i:s"))
                     ->save();
                 $Log->set("data.error.msg", "FeedbackRequiredException")
-                    ->set("data.error.details", "FeedbackRequiredException2")
+                    ->set("data.error.details", "FeedbackRequiredException [Deleted session dir!]")
                     ->save();
             }
             return;
@@ -761,7 +775,7 @@ function addCronTask()
         }
 
         if (count($follow_pks) >= 3 && $follows > 1) {
-            for ($i=0; $i < $follows; $i++) { 
+            for ($i = 0; $i < $follows; $i++) {
                 $Log->set("status", "success")
                     ->set("data.followed", [
                         "pk" => $follow_pks[$i],

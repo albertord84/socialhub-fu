@@ -490,7 +490,21 @@ class Client
                 case 404:
                     throw new \InstagramAPI\Exception\NotFoundException('Requested resource does not exist.');
                 default:
-                    throw new \InstagramAPI\Exception\EmptyResponseException('No response from server. Either a connection or configuration error.');
+                    $jsonObject = $this->api_body_decode($rawResponse, false);
+                    if (is_object($jsonObject)) {
+                        $prettyJson = @json_encode(
+                            $jsonObject,
+                            JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+                        );
+                        if ($prettyJson !== false) {
+                            Debug::printResponse(
+                                'Human-Readable Response:'.PHP_EOL.$prettyJson,
+                                false // Not truncated.
+                            );
+                        }
+                    }
+                    throw new \InstagramAPI\Exception\EmptyResponseException('status: ' . $httpStatusCode . ' No response from server. Either a connection or configuration error.');
+                    // throw new \InstagramAPI\Exception\EmptyResponseException('No response from server. Either a connection or configuration error.');
             }
         }
 
