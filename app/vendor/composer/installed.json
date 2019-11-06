@@ -712,12 +712,12 @@
         "version_normalized": "4.3.0.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/oscarotero/Gettext.git",
+            "url": "https://github.com/php-gettext/Gettext.git",
             "reference": "9f8b05914581173725b256157e15ee14c42d3865"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/oscarotero/Gettext/zipball/9f8b05914581173725b256157e15ee14c42d3865",
+            "url": "https://api.github.com/repos/php-gettext/Gettext/zipball/9f8b05914581173725b256157e15ee14c42d3865",
             "reference": "9f8b05914581173725b256157e15ee14c42d3865",
             "shasum": ""
         },

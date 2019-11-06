@@ -73,7 +73,7 @@ class InstagramController extends Controller
                     // Recent login, there is no need to re-send login flow
                     // $Instagram->isMaybeLoggedIn = true;
                     //   $Instagram->_sendLoginFlow(false);
-		// }
+		        // }
             // }
             $login_resp = $Instagram->login($Account->get("username"), $password);
             if ($login_resp !== null && $login_resp->isTwoFactorRequired()) {

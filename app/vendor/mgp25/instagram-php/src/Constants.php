@@ -100,7 +100,4 @@ class Constants
     // Story view modes.
     const STORY_VIEW_MODE_ONCE = 'once';
     const STORY_VIEW_MODE_REPLAYABLE = 'replayable';
-
-    const CHALLENGE_CHOICE_SMS = 0;
-    const CHALLENGE_CHOICE_EMAIL = 1;
 }

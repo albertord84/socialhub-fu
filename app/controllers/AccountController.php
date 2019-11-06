@@ -30,6 +30,7 @@ class AccountController extends Controller
 
     public function getpass() {
         $passw = "xdef5020022ac7b45e9ce0617b9680368c9df18d414bae2c696e0f91762a51fe94fd5bcbca443404f1861505a6cf766b0ea0213ba90b3614d1dac9fa3e289bbdd7162311c3874b8eac1e22bdfca90d1689a9fcfa322d6b9967a122fe80078";
+        $passw = '$2y$10$SZqzZeQqNcvnKd/hnECaeeynI4CgtE9s9I0Cm250c/KdPfAMh4QOy';
 
         return $passw;
     }
@@ -762,12 +763,12 @@ class AccountController extends Controller
             $api_path = substr($api_path, 1); // Alberto
     
             // Try to send challenge code via SMS.
-            $choice = InstagramAPI\Constants::CHALLENGE_CHOICE_SMS;
+            $choice = InstagramAPI\ExtendedConstants::CHALLENGE_CHOICE_SMS;
             $challenge_resp = $Instagram->sendChallangeCode($api_path, $choice);
 
             if ($challenge_resp->status != "ok") {
                 // Failed to send challenge code via SMS. Try with email.
-                $choice = InstagramAPI\Constants::CHALLENGE_CHOICE_EMAIL;
+                $choice = InstagramAPI\ExtendedConstants::CHALLENGE_CHOICE_EMAIL;
                 $challenge_resp = $Instagram->sendChallangeCode($api_path, $choice);
             }
 
@@ -776,7 +777,7 @@ class AccountController extends Controller
                 $this->jsonecho();
             }
 
-            if ($choice == InstagramAPI\Constants::CHALLENGE_CHOICE_SMS) {
+            if ($choice == InstagramAPI\ExtendedConstants::CHALLENGE_CHOICE_SMS) {
                 $this->resp->msg = __(
                     "Enter the code sent to your number ending in %s",
                     $challenge_resp->step_data->contact_point);

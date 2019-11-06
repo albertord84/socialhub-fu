@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "00704db99c5bde9cc91368f641fc4fab",
+    "content-hash": "aada37a51f74851b2555573730c91d2a",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -692,12 +692,12 @@
             "version": "v4.3.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/oscarotero/Gettext.git",
+                "url": "https://github.com/php-gettext/Gettext.git",
                 "reference": "9f8b05914581173725b256157e15ee14c42d3865"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oscarotero/Gettext/zipball/9f8b05914581173725b256157e15ee14c42d3865",
+                "url": "https://api.github.com/repos/php-gettext/Gettext/zipball/9f8b05914581173725b256157e15ee14c42d3865",
                 "reference": "9f8b05914581173725b256157e15ee14c42d3865",
                 "shasum": ""
             },

@@ -9,15 +9,15 @@ require __DIR__ . '/app/vendor/autoload.php';
 
 //////////////////////
 
-$proxy = "https://Socialhub.pro:C_LAjPwZxzD-an@185.128.148.49:30508";
+$proxy = "http://Socialhub.pro:C_LAjPwZxzD-an@185.128.148.49:30508";
 
 try {
     if ($proxy && isValidProxy($proxy)) {
-        die("Conexao feita com proxy HTTPS! :)");
+        die("Conexao feita com proxy HTTPS! :) \n");
     }
-    die("Erro conectando atravez do proxy atravez do PHP com HTTPS! :(");
+    die("Erro conectando atravez do proxy atravez do PHP com HTTPS! :( \n");
 } catch (Exception $exception) {
-    die("Erro conectando atravez do proxy atravez do PHP com HTTPS! :(");
+    die("Erro conectando atravez do proxy atravez do PHP com HTTPS! :( \n");
 }
 
 /**
@@ -48,7 +48,8 @@ function isValidProxy($proxy)
 
     try {
         $client = new \GuzzleHttp\Client();
-        $res = $client->request('GET', 'https://www.instagram.com',
+        // $res = $client->request('GET', 'http://www.google.com',
+        $res = $client->request('GET', 'http://www.instagram.com',
             [
                 "verify" => false,
                 "timeout" => 10,
@@ -58,7 +59,7 @@ function isValidProxy($proxy)
             ]);
         $code = $res->getStatusCode();
     } catch (\Exception $e) {
-        return false;
+        ddd($e);
     }
 
     return $code == 200;
