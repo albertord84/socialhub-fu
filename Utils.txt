@@ -1,0 +1,12 @@
+fu.socialhub.local/post
+
+composer require mgp25/instagram-php
+
+sudo php app/vendor/mgp25/instagram-php/examples/AlbertoFactorLogin.php
+sudo php testproxy.php
+
+ssh socialhub@fu.socialhub.pro -p 1140
+z..g....01+../
+
+cd /home/socialhub.pro/public_html/fu.socialhub.pro/
+

@@ -1,0 +1,92 @@
+.pre-datatable {
+    display: block;
+    clear: both;
+    padding: 20px;
+}
+table.dataTable td {
+    vertical-align: middle;
+}
+table.dataTable.no-footer {
+    border-top:  1px solid #e0e0e0;
+}
+table.dataTable.no-footer,
+table.dataTable thead th, table.dataTable thead td {
+    border-bottom: 1px solid #e0e0e0;
+}
+table.dataTable {
+    max-width: 100% !important;
+}
+
+.dataTables_wrapper .dataTables_filter {
+    padding-bottom: 15px;
+}
+.btn-no, .btn-yes {
+    padding: 3px;
+    height: auto !important;
+    line-height: 12px;
+}
+.btn-no {
+    color: #ff0a0a;
+    border-color: #ff0a0a;
+}
+.btn-yes {
+    color: #3b7cff;
+    border-color: #3b7cff;
+}
+
+.nr-ok, .nr-error {
+    display: inline-block;
+    padding: 3px 8px;
+    margin: 5px;
+    border-radius: 4px;
+    color: #fff;
+}
+.nr-ok  {
+    background: #00a65a;
+}
+.nr-error {
+    background: #ac2925;
+}
+.form-proxy .input {
+    display: inline-block;
+    max-width: 70%;
+}
+.form-proxy .button {
+    display: inline-block !important;
+    max-width: 30%;
+    float: right;
+}
+
+.managment-dashboard .box-list-item {
+    box-shadow: 2px 2px 6px 1px #e9ebee;
+}
+.managment-dashboard .box-list-item .title {
+    font-size: 1.4em;
+}
+
+.managment-dashboard .box-list-item:hover .title {
+    color: #3b7cff;
+}
+@media screen and (min-width: 992px) {
+    .managment-dashboard .box-list .box-list-item {
+        width: 22%;
+    }
+}
+
+.section-header {
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+table.report tbody {
+    border: 1px solid #ccc;
+}
+table.report th {
+    padding: 10px;
+}
+table.report tr:hover td {
+    background: #ebf2ff;
+}
+table.report td {
+    padding: 15px 30px;
+}
