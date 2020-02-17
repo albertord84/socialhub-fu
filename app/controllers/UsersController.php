@@ -38,7 +38,6 @@ class UsersController extends Controller
             ->fetchData();
 
         $this->setVariable("Users", $Users);
-
         // $this->setVariable("onlineuserscount", \Plugins\onlineusers\IndexController::fetchOnlineUserCount());
 
 
